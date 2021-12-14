@@ -1,17 +1,16 @@
 {
-    "debug": true,
-    "server": {
-        "address": ":8989"
-    },
-    "context":{
-        "timeout":2
-    },
-    "database": {
-        "host": "localhost",
-        "port": "3306",
-        "user": "root",
-        "pass": "190901",
-        "name": "good-jobs"
-    }
-
+  "debug": true,
+  "server": {
+    "address": ":8989"
+  },
+  "context": {
+    "timeout": 2
+  },
+  "database": {
+    "host": "goodjobs.cs4bnccrt2gd.ap-southeast-1.rds.amazonaws.com",
+    "port": "3306",
+    "user": "goodjobs",
+    "pass": "goodjobs",
+    "name": "goodjobs_data"
+  }
 }
