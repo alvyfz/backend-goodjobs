@@ -15,7 +15,5 @@ func FromUserRegister(domain users.Domain) UserResponse {
 		Email		:domain.Email,
 		Age			:domain.Age,
 		Phone		:domain.Phone,
-		Password	:domain.Password,
-		Token		:domain.Token,
 	}
 }
