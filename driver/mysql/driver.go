@@ -3,6 +3,10 @@ package mysql
 import (
 	"fmt"
 	"log"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type ConfigDB struct {

@@ -1,8 +1,15 @@
 package main
 
 import (
+	"goodjobs/app/middlewares"
+	"goodjobs/app/routes"
+	"goodjobs/driver/mysql"
 	"log"
 	"time"
+
+	userUseCase "goodjobs/business/users"
+	userController "goodjobs/controllers/users"
+	userRepo "goodjobs/driver/repository/users"
 
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
@@ -21,6 +28,7 @@ func init() {
 }
 
 func DBMigrate(DB *gorm.DB) {
+	// DB.AutoMigrate(&userRepo.User{})
 	DB.AutoMigrate(&userRepo.User{})
 }
 

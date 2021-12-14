@@ -4,7 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/iskandardevan/book-library/business/users"
+	"goodjobs/business/users"
+
 	"gorm.io/gorm"
 )
 

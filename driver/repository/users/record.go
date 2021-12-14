@@ -1,9 +1,9 @@
 package users
 
 import (
+	"goodjobs/business/users"
 	"time"
 
-	"github.com/iskandardevan/book-library/business/users"
 	"gorm.io/gorm"
 )
 

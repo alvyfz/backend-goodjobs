@@ -1,6 +1,11 @@
 package users
 
 import (
+	"goodjobs/business/users"
+	"goodjobs/controllers"
+	"goodjobs/controllers/users/request"
+	"goodjobs/controllers/users/response"
+	"goodjobs/helpers"
 	"net/http"
 	"strconv"
 
@@ -23,6 +28,7 @@ func (userController *UserController) RegisterUser (c echo.Context) error {
 	err = c.Bind(&req)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+		// return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
 
 	ctx := c.Request().Context()
@@ -31,6 +37,7 @@ func (userController *UserController) RegisterUser (c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
+	// return controllers.NewSuccesResponse(c, response.FromUserRegister(data))
 	return controllers.NewSuccesResponse(c, response.FromUserRegister(data))
 
 }

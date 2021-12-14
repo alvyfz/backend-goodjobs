@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/iskandardevan/book-library/business/users"
+	"goodjobs/business/users"
 )
 
 

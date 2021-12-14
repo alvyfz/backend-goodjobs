@@ -1,6 +1,6 @@
 package request
 
-import "github.com/iskandardevan/book-library/business/users"
+import "goodjobs/business/users"
 
 type RegisterUserRequest struct {
 	Email    	string 	`json:"email"`

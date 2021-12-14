@@ -1,6 +1,6 @@
 package response
 
-import "github.com/iskandardevan/book-library/business/users"
+import "goodjobs/business/users"
 
 func UserLogin(domain users.Domain, token string) JWTResponse{
 	Response := UserResponse{

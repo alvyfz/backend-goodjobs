@@ -1,5 +1,12 @@
 package routes
 
+import (
+	"goodjobs/app/middlewares"
+	"goodjobs/controllers/users"
+
+	"github.com/labstack/echo/v4"
+)
+
 type RouteControllerList struct {
 	JWTMiddleware  middlewares.ConfigJWT
 	UserController users.UserController
