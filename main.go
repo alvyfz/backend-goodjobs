@@ -2,6 +2,7 @@ package main
 
 import (
 	"goodjobs/app/middlewares"
+	_middleware "goodjobs/app/middlewares"
 	"goodjobs/app/routes"
 	"goodjobs/driver/mysql"
 	"log"
@@ -32,6 +33,8 @@ func DBMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&userRepo.User{})
 }
 
+
+
 func main() {
 	ConfigDB := mysql.ConfigDB{
 		DB_Username: viper.GetString("database.user"),
@@ -39,6 +42,11 @@ func main() {
 		DB_Host:     viper.GetString("database.host"),
 		DB_Port:     viper.GetString("database.port"),
 		DB_Database: viper.GetString("database.name"),
+	}
+
+	configJWT := _middleware.ConfigJWT{
+		SecretJWT:       viper.GetString("JWT.secretKey"),
+		ExpiresDuration: viper.GetInt("JWT.expired_time"),
 	}
 
 	DB := ConfigDB.InitialDB()
@@ -52,6 +60,7 @@ func main() {
 
 	routesInit := routes.RouteControllerList{
 		UserController: *userUseControllerInterface,
+		JWTMiddleware: configJWT.Init(),
 	}
 	routesInit.RouteRegister(e)
 	log.Fatal(e.Start(viper.GetString("server.address")))
