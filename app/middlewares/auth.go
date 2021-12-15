@@ -1,10 +1,13 @@
 package middlewares
 
 import (
+	controller "goodjobs/controllers"
+	"net/http"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type JWTCustomClaims struct {
@@ -15,6 +18,16 @@ type JWTCustomClaims struct {
 type ConfigJWT struct {
     SecretJWT string
     ExpiresDuration int
+}
+
+func (jwtConf *ConfigJWT) Init() middleware.JWTConfig{
+	return middleware.JWTConfig{
+		Claims: &JWTCustomClaims{},
+		SigningKey: []byte(jwtConf.SecretJWT),
+		ErrorHandlerWithContext: middleware.JWTErrorHandlerWithContext(func(e error, c echo.Context) error {
+			return controller.NewErrorResponse(c, http.StatusForbidden, e)
+		}),
+	}
 }
 
 func (jwtConf *ConfigJWT) GenerateTokenJWT(id uint) (string, error) {
