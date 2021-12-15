@@ -1,15 +1,14 @@
-FROM golang:1.17-alpine AS build
-
+FROM golang:1.17-alpine AS builder
+RUN mkdir /app
+ADD . /app
 WORKDIR /app
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
+RUN go clean --modcache
+RUN go build -o main
 
-COPY . .
-RUN go build -o app
-
+#stage 2
 FROM alpine:latest
-COPY --from=build /app/app /app
-
+WORKDIR /root/
+COPY --from=builder /app/config.json .
+COPY --from=builder /app/main .
 EXPOSE 8080
-CMD ["/app"]
+CMD ["./main"]
