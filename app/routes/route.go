@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"goodjobs/controllers/roles"
 	"goodjobs/controllers/users"
 
 	"github.com/labstack/echo/v4"
@@ -10,6 +11,7 @@ import (
 type RouteControllerList struct {
 	JWTMiddleware  middleware.JWTConfig
 	UserController users.UserController
+	RoleController roles.RoleController
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
@@ -28,5 +30,9 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.GET("users", ctrl.UserController.GetAllUsers)
 	// e.PUT("user/:id", ctrl.UserController.UpdateUserByID)
 	// e.DELETE("user/:id", ctrl.UserController.DeleteUserByID)
+
+	e.POST("role/add", ctrl.RoleController.Add)
+	e.GET("roles", ctrl.RoleController.GetAll)
+	e.DELETE("role/:id", ctrl.RoleController.Delete)
 
 }
