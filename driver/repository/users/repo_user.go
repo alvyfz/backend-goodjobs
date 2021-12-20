@@ -19,7 +19,7 @@ func NewUserRepo(DB *gorm.DB) *userRepo {
 
 func (Repo *userRepo) RegisterUser(ctx context.Context, domain *users.Domain) (users.Domain, error) {
 	user := FromDomain(*domain)
-	err := Repo.DB.Create(&user)
+	err := Repo.DB.Create(&user).Joins("Role")
 	if err.Error != nil {
 		return users.Domain{}, err.Error
 	}
@@ -37,7 +37,7 @@ func (Repo *userRepo) GetEmail(ctx context.Context, email string) (users.Domain,
 
 func (Repo *userRepo) GetByID(id uint, ctx context.Context ) (users.Domain, error){
 	var user User
-	err := Repo.DB.Find(&user, "id=?", id)
+	err := Repo.DB.Find(&user, "id=?", id).Joins("Role")
 	if err.Error != nil {
 		return users.Domain{}, err.Error
 	}
@@ -46,7 +46,8 @@ func (Repo *userRepo) GetByID(id uint, ctx context.Context ) (users.Domain, erro
 
 func (Repo *userRepo) GetAllUsers(ctx context.Context) ([]users.Domain, error){
 	var user []User
-	err := Repo.DB.Find(&user)
+	// config.DB.Find(&transaction).Joins("User", "Property")
+	err := Repo.DB.Find(&user).Joins("Role")
 	if err.Error != nil {
 		return []users.Domain{}, err.Error
 	}

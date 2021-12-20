@@ -2,6 +2,7 @@ package users
 
 import (
 	"context"
+	"goodjobs/business/roles"
 	"time"
 
 	"gorm.io/gorm"
@@ -14,9 +15,10 @@ type Domain struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	Email     string
 	Name 	string
-	Age			int
 	Phone		string
 	Password  string
+	Roles_ID	uint
+	Roles 		roles.Domain
 	Token     string
 }
 

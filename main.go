@@ -1,7 +1,7 @@
 package main
 
 import (
-	"goodjobs/app/middlewares"
+	_middleware "goodjobs/app/middlewares"
 	"goodjobs/app/routes"
 	"goodjobs/driver/mysql"
 	"log"
@@ -10,6 +10,10 @@ import (
 	userUseCase "goodjobs/business/users"
 	userController "goodjobs/controllers/users"
 	userRepo "goodjobs/driver/repository/users"
+
+	roleUseCase "goodjobs/business/roles"
+	roleController "goodjobs/controllers/roles"
+	roleRepo "goodjobs/driver/repository/roles"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -29,9 +33,11 @@ func init() {
 }
 
 func DBMigrate(DB *gorm.DB) {
-	// DB.AutoMigrate(&userRepo.User{})
 	DB.AutoMigrate(&userRepo.User{})
+	DB.AutoMigrate(&roleRepo.Role{})
 }
+
+
 
 func main() {
 	ConfigDB := mysql.ConfigDB{
@@ -42,17 +48,28 @@ func main() {
 		DB_Database: viper.GetString("database.name"),
 	}
 
+	configJWT := _middleware.ConfigJWT{
+		SecretJWT:       viper.GetString("JWT.secretKey"),
+		ExpiresDuration: viper.GetInt("JWT.expired_time"),
+	}
+
 	DB := ConfigDB.InitialDB()
 	DBMigrate(DB)
 	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
 	e := echo.New()
 	e.Use(middleware.CORS())
 	userRepoInterface := userRepo.NewUserRepo(DB)
-	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &middlewares.ConfigJWT{})
+	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &_middleware.ConfigJWT{})
 	userUseControllerInterface := userController.NewUserController(userUseCaseInterface)
+
+	roleRepoInterface := roleRepo.NewRoleRepo(DB)
+	roleUseCaseInterface := roleUseCase.NewUseCase(roleRepoInterface, timeoutContext)
+	roleUseControllerInterface := roleController.NewRoleController(roleUseCaseInterface)
 
 	routesInit := routes.RouteControllerList{
 		UserController: *userUseControllerInterface,
+		RoleController: *roleUseControllerInterface,
+		JWTMiddleware: configJWT.Init(),
 	}
 	routesInit.RouteRegister(e)
 	log.Fatal(e.Start(viper.GetString("server.address")))

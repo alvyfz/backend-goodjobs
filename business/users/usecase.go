@@ -52,7 +52,7 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 	if err != nil {
 		return Domain{},"", err
 	}
-	token, errToken := usecase.JWTAuth.GenerateTokenJWT(user.Id)
+	token, errToken := usecase.JWTAuth.GenerateTokenJWT(user.Id, user.Roles_ID)
 	if errToken != nil {
 		log.Println(errToken)
 	}

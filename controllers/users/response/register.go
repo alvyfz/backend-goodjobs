@@ -13,7 +13,8 @@ func FromUserRegister(domain users.Domain) UserResponse {
 		DeletedAt	:domain.DeletedAt,
 		Name		:domain.Name,
 		Email		:domain.Email,
-		Age			:domain.Age,
 		Phone		:domain.Phone,
+		Roles_ID	:domain.Roles_ID,
+		// Role		:response.FromDomainRole(domain.Roles) ,
 	}
 }

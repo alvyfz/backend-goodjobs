@@ -1,23 +1,34 @@
 package routes
 
 import (
-	"goodjobs/app/middlewares"
+	"goodjobs/controllers/roles"
 	"goodjobs/controllers/users"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type RouteControllerList struct {
-	JWTMiddleware  middlewares.ConfigJWT
+	JWTMiddleware  middleware.JWTConfig
 	UserController users.UserController
+	RoleController roles.RoleController
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
+
+	user := e.Group("user", middleware.JWTWithConfig(ctrl.JWTMiddleware))
+
+	user.PUT("/:id", ctrl.UserController.UpdateUserByID)
+	user.DELETE("/:id", ctrl.UserController.DeleteUserByID)
 	e.POST("user/register", ctrl.UserController.RegisterUser)
 	e.POST("user/login", ctrl.UserController.LoginUser)
 	e.GET("user/:id", ctrl.UserController.GetByID)
 	e.GET("users", ctrl.UserController.GetAllUsers)
-	e.PUT("user/:id", ctrl.UserController.UpdateUserByID)
-	e.DELETE("user/:id", ctrl.UserController.DeleteUserByID)
+	// e.PUT("user/:id", ctrl.UserController.UpdateUserByID)
+	// e.DELETE("user/:id", ctrl.UserController.DeleteUserByID)
+
+	e.POST("role/add", ctrl.RoleController.Add)
+	e.GET("roles", ctrl.RoleController.GetAll)
+	e.DELETE("role/:id", ctrl.RoleController.Delete)
 
 }

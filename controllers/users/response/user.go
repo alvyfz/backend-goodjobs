@@ -14,30 +14,25 @@ type UserResponse struct {
 	DeletedAt 	gorm.DeletedAt `json:"deletedAt"`
 	Email     	string         `json:"email"`
 	Name      	string         `json:"name"`
-	Age			int 			`json:"age"`
 	Phone		string 			`json:"phone"`
-	Password  	string         `json:"password"`
-	Token     	string         `json:"token"`
+	Roles_ID	uint			`json:"role_id"`
 
 }
 
 type JWTResponse struct {
-	Token string
-	User interface{}
+	Token string		`json:"token"`
+	User interface{}	`json:"user"`
 }
 
 func FromDomain(domain users.Domain) UserResponse {
 	return UserResponse{
 		Id:        domain.Id,
-		CreatedAt: domain.CreatedAt,
-		UpdatedAt: domain.UpdatedAt,
-		DeletedAt: domain.DeletedAt,
+		CreatedAt	:domain.CreatedAt,
+		UpdatedAt	:domain.UpdatedAt,
 		Name:      domain.Name,
 		Email:     domain.Email,
-		Age: domain.Age,
 		Phone: domain.Phone,
-		Password:  domain.Password,
-		Token:     domain.Token,
+		Roles_ID: domain.Roles_ID,
 	}
 }
 

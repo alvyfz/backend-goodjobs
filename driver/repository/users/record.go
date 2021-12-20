@@ -2,6 +2,7 @@ package users
 
 import (
 	"goodjobs/business/users"
+	"goodjobs/driver/repository/roles"
 	"time"
 
 	"gorm.io/gorm"
@@ -11,10 +12,11 @@ import (
 type User struct {
 	Id 			uint 			`gorm:"primaryKey"`
 	Email		string			`gorm:"unique"`
-	Name 		string 		
-	Age			int			
+	Name 		string 			
 	Phone		string
 	Password	string
+	Roles_ID	uint
+	Roles 		roles.Role		`gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Token		string
 	CreatedAt 	time.Time   
 	UpdatedAt 	time.Time   
@@ -26,9 +28,10 @@ func (user *User) ToDomain() users.Domain {
 		Id 			:user.Id,
 		Email		:user.Email,
 		Name 		:user.Name,
-		Age			:user.Age,
 		Phone		:user.Phone,
 		Password	:user.Password,
+		Roles_ID	:user.Roles_ID ,
+		Roles		:user.Roles.ToDomain() ,
 		Token		:user.Token,
 		CreatedAt 	:user.CreatedAt,
 		UpdatedAt 	:user.UpdatedAt,
@@ -40,9 +43,10 @@ func FromDomain(domain users.Domain) User  {
 		Id 			:domain.Id,
 		Email		:domain.Email,
 		Name 		:domain.Name,
-		Age			:domain.Age,
 		Phone		:domain.Phone,
 		Password	:domain.Password,
+		Roles_ID	:domain.Roles_ID,
+		Roles		:roles.FromDomain(domain.Roles) ,
 		Token		:domain.Token,
 		CreatedAt 	:domain.CreatedAt,
 		UpdatedAt 	:domain.UpdatedAt,
