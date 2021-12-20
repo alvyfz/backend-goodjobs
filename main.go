@@ -12,6 +12,7 @@ import (
 	userRepo "goodjobs/driver/repository/users"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
@@ -45,7 +46,7 @@ func main() {
 	DBMigrate(DB)
 	timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
 	e := echo.New()
-
+	e.Use(middleware.CORS())
 	userRepoInterface := userRepo.NewUserRepo(DB)
 	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &middlewares.ConfigJWT{})
 	userUseControllerInterface := userController.NewUserController(userUseCaseInterface)
