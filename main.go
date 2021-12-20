@@ -1,7 +1,6 @@
 package main
 
 import (
-	"goodjobs/app/middlewares"
 	_middleware "goodjobs/app/middlewares"
 	"goodjobs/app/routes"
 	"goodjobs/driver/mysql"
@@ -33,7 +32,6 @@ func init() {
 }
 
 func DBMigrate(DB *gorm.DB) {
-	// DB.AutoMigrate(&userRepo.User{})
 	DB.AutoMigrate(&userRepo.User{})
 	DB.AutoMigrate(&roleRepo.Role{})
 }
@@ -60,7 +58,7 @@ func main() {
 	e := echo.New()
 
 	userRepoInterface := userRepo.NewUserRepo(DB)
-	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &middlewares.ConfigJWT{})
+	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &_middleware.ConfigJWT{})
 	userUseControllerInterface := userController.NewUserController(userUseCaseInterface)
 
 	roleRepoInterface := roleRepo.NewRoleRepo(DB)

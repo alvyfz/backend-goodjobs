@@ -9,10 +9,10 @@ import (
 
 type RoleResponse struct {
 	Id       	uint         	`json:"id"`
+	Name     	string       	`json:"name"`
 	CreatedAt 	time.Time    	`json:"createdAt"`
 	UpdatedAt 	time.Time    	`json:"updatedAt"`
 	DeletedAt	gorm.DeletedAt 	`json:"deletedAt"`
-	Name     	string       	`json:"name"`
 
 }
 

@@ -27,7 +27,6 @@ func setup(){
 		Id 			:1,
 		Email		:"sites@gmail.com",
 		Name 		:"sites",
-		Age			:21,
 		Phone		:"198198198",
 		Password	:"qqwerty",
 	}
@@ -43,7 +42,6 @@ func TestRegister(t *testing.T) {
 			Id 			:1,
 			Email		:"sites@gmail.com",
 			Name 		:"sites",
-			Age			:21,
 			Phone		:"198198198",
 			Password	:"qqwerty",
 		})

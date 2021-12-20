@@ -12,6 +12,7 @@ import (
 
 type JWTCustomClaims struct {
     ID uint `json:"id"`
+    Role_ID uint `json:"role_id"`
     jwt.StandardClaims
 }
 
@@ -30,11 +31,12 @@ func (jwtConf *ConfigJWT) Init() middleware.JWTConfig{
 	}
 }
 
-func (jwtConf *ConfigJWT) GenerateTokenJWT(id uint) (string, error) {
+func (jwtConf *ConfigJWT) GenerateTokenJWT(id uint, role_id uint) (string, error) {
     claims := JWTCustomClaims{
         id,
+        role_id,
         jwt.StandardClaims{
-            ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(int64(jwtConf.ExpiresDuration))).Unix(),
+            ExpiresAt: time.Now().Add(time.Hour*3).Local().Add(time.Hour * time.Duration(int64(jwtConf.ExpiresDuration))).Unix(),
         },
     }
     t := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

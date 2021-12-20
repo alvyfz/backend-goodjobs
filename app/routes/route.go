@@ -15,10 +15,6 @@ type RouteControllerList struct {
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
-	// laundro := e.Group("laundro", middleware.JWTWithConfig(ctrlList.JWTMiddleware))
-	// laundro.GET("/find-ip", ctrlList.LaundromatController.GetByIP)
-	// laundro.GET("/find-name/:name", ctrlList.LaundromatController.GetByName)
-	// laundro.GET("/find-category/:categoryId", ctrlList.ProductController.GetLaundromatByCategory)
 
 	user := e.Group("user", middleware.JWTWithConfig(ctrl.JWTMiddleware))
 
