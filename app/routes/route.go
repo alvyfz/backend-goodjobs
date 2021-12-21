@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"goodjobs/controllers/buildings"
 	"goodjobs/controllers/complexes"
 	"goodjobs/controllers/roles"
 	"goodjobs/controllers/users"
@@ -14,6 +15,7 @@ type RouteControllerList struct {
 	UserController users.UserController
 	RoleController roles.RoleController
 	ComplexController complexes.ComplexController
+	BuildingController buildings.BuildingController
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
@@ -37,4 +39,8 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.GET("complexes", ctrl.ComplexController.GetAll)
 	e.DELETE("complex/:id", ctrl.ComplexController.Delete)
 
+	e.POST("building/add", ctrl.BuildingController.Add)
+	e.GET("buildinges", ctrl.BuildingController.GetAll)
+	e.PUT("building/:id", ctrl.BuildingController.Edit)
+	e.DELETE("building/:id", ctrl.BuildingController.Delete)
 }
