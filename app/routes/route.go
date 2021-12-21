@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"goodjobs/controllers/complexes"
 	"goodjobs/controllers/roles"
 	"goodjobs/controllers/users"
 
@@ -12,6 +13,7 @@ type RouteControllerList struct {
 	JWTMiddleware  middleware.JWTConfig
 	UserController users.UserController
 	RoleController roles.RoleController
+	ComplexController complexes.ComplexController
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
@@ -30,5 +32,9 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.POST("role/add", ctrl.RoleController.Add)
 	e.GET("roles", ctrl.RoleController.GetAll)
 	e.DELETE("role/:id", ctrl.RoleController.Delete)
+	
+	e.POST("complex/add", ctrl.ComplexController.Add)
+	e.GET("complexes", ctrl.ComplexController.GetAll)
+	e.DELETE("complex/:id", ctrl.ComplexController.Delete)
 
 }

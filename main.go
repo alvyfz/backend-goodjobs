@@ -15,6 +15,10 @@ import (
 	roleController "goodjobs/controllers/roles"
 	roleRepo "goodjobs/driver/repository/roles"
 
+	complexUseCase "goodjobs/business/complexes"
+	complexController "goodjobs/controllers/complexes"
+	complexRepo "goodjobs/driver/repository/complexes"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
@@ -35,6 +39,7 @@ func init() {
 func DBMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&userRepo.User{})
 	DB.AutoMigrate(&roleRepo.Role{})
+	DB.AutoMigrate(&complexRepo.Complex{})
 }
 
 
@@ -66,9 +71,17 @@ func main() {
 	roleUseCaseInterface := roleUseCase.NewUseCase(roleRepoInterface, timeoutContext)
 	roleUseControllerInterface := roleController.NewRoleController(roleUseCaseInterface)
 
+	complexRepoInterface := complexRepo.NewComplexRepo(DB)
+	complexUseCaseInterface := complexUseCase.NewUseCase(complexRepoInterface, timeoutContext)
+	complexUseControllerInterface := complexController.NewComplexController(complexUseCaseInterface)
+
+
+
+
 	routesInit := routes.RouteControllerList{
 		UserController: *userUseControllerInterface,
 		RoleController: *roleUseControllerInterface,
+		ComplexController: *complexUseControllerInterface,
 		JWTMiddleware: configJWT.Init(),
 	}
 	routesInit.RouteRegister(e)
