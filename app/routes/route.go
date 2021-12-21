@@ -40,7 +40,7 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.DELETE("complex/:id", ctrl.ComplexController.Delete)
 
 	e.POST("building/add", ctrl.BuildingController.Add)
-	e.GET("buildinges", ctrl.BuildingController.GetAll)
+	e.GET("buildings", ctrl.BuildingController.GetAll)
 	e.PUT("building/:id", ctrl.BuildingController.Edit)
 	e.DELETE("building/:id", ctrl.BuildingController.Delete)
 }
