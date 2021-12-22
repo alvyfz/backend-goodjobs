@@ -39,6 +39,7 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	
 	e.POST("complex/add", ctrl.ComplexController.Add)
 	e.GET("complexes", ctrl.ComplexController.GetAll)
+	e.PUT("complex/:id", ctrl.ComplexController.Edit)
 	e.DELETE("complex/:id", ctrl.ComplexController.Delete)
 
 	e.POST("building/add", ctrl.BuildingController.Add)

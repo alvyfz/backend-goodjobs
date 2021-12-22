@@ -19,11 +19,13 @@ type Domain struct {
 type ComplexUsecaseInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context) error
 }
 
 type ComplexRepoInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context) error
 }

@@ -38,6 +38,15 @@ func (Repo *complexRepo) GetAll(ctx context.Context) ([]complexes.Domain, error)
 	return GetAll(complex), nil
 }
 
+func (Repo *complexRepo) Edit(id uint, ctx context.Context, domain complexes.Domain) (complexes.Domain, error){
+	complex := FromDomain(domain)
+	if Repo.DB.Save(&complex).Error != nil {
+		return complexes.Domain{}, errors.New("id tidak ditemukan")
+	}
+	return complex.ToDomain(), nil
+}
+
+
 func (Repo *complexRepo) Delete(id uint, ctx context.Context) error{
 	complex := Complex{}
 	err := Repo.DB.Delete(&complex, id)

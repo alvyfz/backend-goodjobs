@@ -49,6 +49,27 @@ func (complexController *ComplexController) GetAll(c echo.Context) error {
 
 }
 
+func (complexController *ComplexController) Edit (c echo.Context) error{
+	id := c.Param("id")
+	convID, err := helpers.StringToUint(id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	req := request.ComplexRequest{}
+	err = c.Bind(&req)
+	if err != nil {
+		return err
+	}
+	ctx := c.Request().Context()
+	data, err := complexController.complexUseCase.Edit(convID, ctx, *req.ToDomain())
+
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromDomainComplex(data))
+
+}
+
 func (complexController *ComplexController) Delete(c echo.Context) error{
 	id := c.Param("id")
 	convID, err := helpers.StringToUint(id)
