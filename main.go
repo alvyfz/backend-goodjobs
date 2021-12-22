@@ -23,6 +23,10 @@ import (
 	buildingController "goodjobs/controllers/buildings"
 	buildingRepo "goodjobs/driver/repository/buildings"
 
+	unitUseCase "goodjobs/business/units"
+	unitController "goodjobs/controllers/units"
+	unitRepo "goodjobs/driver/repository/units"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
@@ -45,6 +49,7 @@ func DBMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&roleRepo.Role{})
 	DB.AutoMigrate(&complexRepo.Complex{})
 	DB.AutoMigrate(&buildingRepo.Building{})
+	DB.AutoMigrate(&unitRepo.Unit{})
 }
 
 
@@ -84,13 +89,16 @@ func main() {
 	buildingUseCaseInterface := buildingUseCase.NewUseCase(buildingRepoInterface, timeoutContext)
 	buildingUseControllerInterface := buildingController.NewBuildingController(buildingUseCaseInterface)
 
-
+	unitRepoInterface := unitRepo.NewUnitRepo(DB)
+	unitUseCaseInterface := unitUseCase.NewUseCase(unitRepoInterface, timeoutContext)
+	unitUseControllerInterface := unitController.NewUnitController(unitUseCaseInterface)
 
 	routesInit := routes.RouteControllerList{
 		UserController: *userUseControllerInterface,
 		RoleController: *roleUseControllerInterface,
 		ComplexController: *complexUseControllerInterface,
 		BuildingController: *buildingUseControllerInterface,
+		UnitController: *unitUseControllerInterface,
 		JWTMiddleware: configJWT.Init(),
 	}
 	routesInit.RouteRegister(e)

@@ -3,6 +3,7 @@ package request
 import "goodjobs/business/buildings"
 
 type BuildingRequest struct {
+	Complex_ID	uint	`json:"complex_id"`
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
 	Size        uint    `json:"size"`
@@ -17,6 +18,7 @@ type BuildingRequest struct {
 
 func (Building *BuildingRequest) ToDomain() *buildings.Domain {
 	return &buildings.Domain{
+		Complex_ID			:Building.Complex_ID ,
 		Name				:Building.Name,
 		Description			:Building.Description,
 		Size				:Building.Size,

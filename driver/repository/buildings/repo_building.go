@@ -18,6 +18,7 @@ func NewBuildingRepo(DB *gorm.DB) *buildingRepo {
 
 func (Repo *buildingRepo) Add(ctx context.Context, domain buildings.Domain) (buildings.Domain, error) {
 	building := Building{
+		Complex_ID			:domain.Complex_ID,
 		Id					:domain.Id,
 		Name				:domain.Name,
 		Description			:domain.Description,

@@ -9,8 +9,8 @@ import (
 )
 
 type BuildingResponse struct {
-	Id          uint `gorm:"primaryKey"`
-	Complex_ID  uint
+	Id          uint 	`gorm:"primaryKey"`
+	Complex_ID  uint	`json:"complex_id"`
 	Complex     respComp.ComplexResponse
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
@@ -31,7 +31,7 @@ func FromDomainBuilding(domain buildings.Domain) BuildingResponse {
 	return BuildingResponse{
 		Id					:domain.Id,
 		Complex_ID			:domain.Complex_ID,
-		Complex				:respComp.FromDomainComplex(domain.Complex) ,
+		Complex				:respComp.FromDomainComplex(domain.Complex),
 		Name				:domain.Name,
 		Description			:domain.Description,
 		Size				:domain.Size,

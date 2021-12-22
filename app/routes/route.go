@@ -4,6 +4,7 @@ import (
 	"goodjobs/controllers/buildings"
 	"goodjobs/controllers/complexes"
 	"goodjobs/controllers/roles"
+	"goodjobs/controllers/units"
 	"goodjobs/controllers/users"
 
 	"github.com/labstack/echo/v4"
@@ -16,6 +17,7 @@ type RouteControllerList struct {
 	RoleController roles.RoleController
 	ComplexController complexes.ComplexController
 	BuildingController buildings.BuildingController
+	UnitController units.UnitController
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
@@ -43,4 +45,9 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.GET("buildings", ctrl.BuildingController.GetAll)
 	e.PUT("building/:id", ctrl.BuildingController.Edit)
 	e.DELETE("building/:id", ctrl.BuildingController.Delete)
+
+	e.POST("unit/add", ctrl.UnitController.Add)
+	e.GET("units", ctrl.UnitController.GetAll)
+	e.PUT("unit/:id", ctrl.UnitController.Edit)
+	e.DELETE("unit/:id", ctrl.BuildingController.Delete)
 }

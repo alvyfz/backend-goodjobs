@@ -12,8 +12,8 @@ type Building struct {
 	Id          uint			 `gorm:"primaryKey"`
 	Complex_ID  uint
 	Complex     complexes.Complex `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Name        string
-	Description string
+	Name        string			`gorm:"unique"`
+	Description string			
 	Size        uint
 	Floor       int
 	OfficeHours string
@@ -29,21 +29,22 @@ type Building struct {
 
 func (building *Building) ToDomain() buildings.Domain {
 	res := buildings.Domain{
-		Id					:building.Id,
-		Complex_ID			:building.Complex_ID,
-		Complex				:building.ToDomain().Complex,
-		Name				:building.Name,
-		Description			:building.Description,
-		Size				:building.Size,
-		Floor				:building.Floor,
-		OfficeHours			:building.OfficeHours,
-		Address				:building.Address,
-		Toilet				:building.Toilet,
-		Img					:building.Img,
-		Latitude			:building.Latitude,
-		Longitude			:building.Longitude,
-		CreatedAt			:building.CreatedAt,
-		UpdatedAt			:building.UpdatedAt,
+		Id:          building.Id,				
+		CreatedAt:   building.CreatedAt,
+		UpdatedAt:   building.UpdatedAt,
+		DeletedAt:   gorm.DeletedAt{},
+		Complex_ID:  building.Complex_ID,
+		Complex:     building.ToDomain().Complex,
+		Name:        building.Name,
+		Description: building.Description,
+		Size:        building.Size,
+		Floor:       building.Floor,
+		OfficeHours: building.OfficeHours,
+		Address:     building.Address,
+		Toilet:      building.Toilet,
+		Img:         building.Img,
+		Latitude:    building.Latitude,
+		Longitude:   building.Longitude,
 	}
 	return res
 }
