@@ -14,6 +14,8 @@ type BuildingRequest struct {
 	Img         string  `json:"img"`
 	Latitude    float64 `json:"latitude"`
 	Longitude   float64 `json:"longitude"`
+	PriceStart	uint	`json:"pricestart"`
+	
 }
 
 func (Building *BuildingRequest) ToDomain() *buildings.Domain {
@@ -29,5 +31,6 @@ func (Building *BuildingRequest) ToDomain() *buildings.Domain {
 		Img					:Building.Img,
 		Latitude			:Building.Latitude,
 		Longitude			:Building.Longitude,
+		PriceStart			:Building.PriceStart,
 	}
 }

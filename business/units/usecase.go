@@ -38,6 +38,17 @@ func (usecase *UnitUseCase) GetAll(ctx context.Context) ([]Domain, error) {
 	return book, nil
 }
 
+func (usecase *UnitUseCase) GetByID(id uint, ctx context.Context) (Domain, error){
+	user, err := usecase.repo.GetByID(id, ctx)
+	if err != nil {
+		return Domain{}, errors.New("tidak ada unit dengan ID tersebut")
+	}
+	if id == 0 {
+		return Domain{}, errors.New("ID harus diisi")
+	}
+	return user, nil
+}
+
 func (usecase *UnitUseCase) Edit(id uint, ctx context.Context, domain Domain) (Domain, error){
 	domain.Id = (id)
 	user, err := usecase.repo.Edit(id, ctx , domain)

@@ -48,6 +48,15 @@ func (Repo *buildingRepo) GetAll(ctx context.Context) ([]buildings.Domain, error
 
 }
 
+func (Repo *buildingRepo) GetByID(id uint, ctx context.Context ) (buildings.Domain, error){
+	var building Building
+	err := Repo.DB.Preload("Complex").Find(&building, "id=?", id)
+	if err.Error != nil {
+		return buildings.Domain{}, err.Error
+	}
+	return building.ToDomain(), nil
+}
+
 func (Repo *buildingRepo) Edit(id uint, ctx context.Context, domain buildings.Domain) (buildings.Domain, error){
 	building := FromDomain(domain)
 	if Repo.DB.Save(&building).Error != nil {

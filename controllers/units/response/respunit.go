@@ -12,7 +12,7 @@ type UnitResponse struct {
 	Id          uint   `json:"id"`
 	Name        string `gorm:"unique"`
 	Building_ID uint		`json:"building_id"`
-	Building	respBuil.BuildingResponse
+	Building	respBuil.BuildingResponse	`json:"building"`
 	Description string		`json:"description"`
 	Price       uint		`json:"price"`
 	UnitSize    uint		`json:"unitsize"`

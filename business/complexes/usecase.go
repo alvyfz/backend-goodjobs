@@ -39,13 +39,25 @@ func (usecase *ComplexUseCase) GetAll(ctx context.Context) ([]Domain, error) {
 	return complex, nil
 }
 
-func (usecase *ComplexUseCase) Edit(id uint, ctx context.Context, domain Domain) (Domain, error){
-	domain.Id = (id)
-	user, err := usecase.repo.Edit(id, ctx , domain)
+func (usecase *ComplexUseCase) GetByID(id uint, ctx context.Context) (Domain, error){
+	complex, err := usecase.repo.GetByID(id, ctx)
 	if err != nil {
 		return Domain{}, errors.New("tidak ada complex dengan ID tersebut")
 	}
-	return user, nil
+	if id == 0 {
+		return Domain{}, errors.New("ID harus diisi")
+	}
+	return complex, nil
+}
+
+
+func (usecase *ComplexUseCase) Edit(id uint, ctx context.Context, domain Domain) (Domain, error){
+	domain.Id = (id)
+	complex, err := usecase.repo.Edit(id, ctx , domain)
+	if err != nil {
+		return Domain{}, errors.New("tidak ada complex dengan ID tersebut")
+	}
+	return complex, nil
 }
 
 func (usecase *ComplexUseCase) Delete(id uint, ctx context.Context) error {

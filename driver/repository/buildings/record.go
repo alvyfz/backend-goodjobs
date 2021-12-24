@@ -11,7 +11,7 @@ import (
 type Building struct {
 	Id          uint			 `gorm:"primaryKey"`
 	Complex_ID  uint
-	Complex     complexes.Complex `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Complex     complexes.Complex `gorm:"constraint:OnUpdate:CASCADE,OnDelete:RESTRICT;"`
 	Name        string			`gorm:"unique"`
 	Description string			
 	Size        uint
@@ -22,6 +22,7 @@ type Building struct {
 	Img         string
 	Latitude    float64
 	Longitude   float64
+	PriceStart	uint
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
@@ -34,7 +35,7 @@ func (building *Building) ToDomain() buildings.Domain {
 		UpdatedAt:   building.UpdatedAt,
 		DeletedAt:   gorm.DeletedAt{},
 		Complex_ID:  building.Complex_ID,
-		Complex:     building.ToDomain().Complex,
+		Complex:     building.Complex.ToDomain(),
 		Name:        building.Name,
 		Description: building.Description,
 		Size:        building.Size,
@@ -45,6 +46,7 @@ func (building *Building) ToDomain() buildings.Domain {
 		Img:         building.Img,
 		Latitude:    building.Latitude,
 		Longitude:   building.Longitude,
+		PriceStart:  building.PriceStart,
 	}
 	return res
 }
@@ -64,6 +66,7 @@ func FromDomain(domain buildings.Domain) Building {
 		Img					:domain.Img,
 		Latitude			:domain.Latitude,
 		Longitude			:domain.Longitude,
+		PriceStart			:domain.PriceStart,
 		CreatedAt			:domain.CreatedAt,
 		UpdatedAt			:domain.UpdatedAt,
 	}

@@ -7,6 +7,7 @@ import (
 	"goodjobs/controllers/buildings/response"
 	"goodjobs/helpers"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -47,6 +48,20 @@ func (buildingController *BuildingController) GetAll(c echo.Context) error {
 	}
 	return controllers.NewSuccesResponse(c, response.GetAll(Building))
 
+}
+
+func (buildingController *BuildingController) GetByID(c echo.Context) error{
+	req := c.Request().Context()
+	id := c.Param("id")
+	Convint, errConvint := strconv.Atoi(id)
+	if errConvint != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, errConvint)
+	}
+	data, err := buildingController.buildingUseCase.GetByID(uint(Convint), req )
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromDomainBuilding(data))
 }
 
 func (buildingController *BuildingController) Edit (c echo.Context) error{

@@ -22,29 +22,40 @@ func (usecase *BuildingUseCase) Add(ctx context.Context, domain Domain) (Domain,
 	if domain.Name == "" {
 		return Domain{}, errors.New("nama harus di isi")
 	}
-	book, err := usecase.repo.Add(ctx, domain)
+	building, err := usecase.repo.Add(ctx, domain)
 	if err != nil {
 		return Domain{}, err
 	}
 
-	return book, nil
+	return building, nil
 }
 
 func (usecase *BuildingUseCase) GetAll(ctx context.Context) ([]Domain, error) {
-	book, err := usecase.repo.GetAll(ctx)
+	building, err := usecase.repo.GetAll(ctx)
 	if err != nil {
 		return []Domain{}, errors.New("tidak ada building")
 	}
-	return book, nil
+	return building, nil
+}
+
+func (usecase *BuildingUseCase) GetByID(id uint, ctx context.Context) (Domain, error){
+	building, err := usecase.repo.GetByID(id, ctx)
+	if err != nil {
+		return Domain{}, errors.New("tidak ada building dengan ID tersebut")
+	}
+	if id == 0 {
+		return Domain{}, errors.New("ID harus diisi")
+	}
+	return building, nil
 }
 
 func (usecase *BuildingUseCase) Edit(id uint, ctx context.Context, domain Domain) (Domain, error){
 	domain.Id = (id)
-	user, err := usecase.repo.Edit(id, ctx , domain)
+	building, err := usecase.repo.Edit(id, ctx , domain)
 	if err != nil {
 		return Domain{}, errors.New("tidak ada building dengan ID tersebut")
 	}
-	return user, nil
+	return building, nil
 }
 
 func (usecase *BuildingUseCase) Delete(id uint, ctx context.Context) error{

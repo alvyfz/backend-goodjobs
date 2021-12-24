@@ -10,6 +10,7 @@ import (
 type Complex struct {
 	Id        uint   `gorm:"primaryKey"`
 	Name      string `gorm:"unique"`
+	Address	  string
 	Img       string
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -20,6 +21,7 @@ func (complex *Complex) ToDomain() complexes.Domain{
 	res := complexes.Domain{
 		Id: complex.Id,
 		Name: complex.Name,
+		Address: complex.Address,
 		Img: complex.Img,
 		CreatedAt 	:complex.CreatedAt,
 		UpdatedAt 	:complex.UpdatedAt,
@@ -31,6 +33,7 @@ func FromDomain(domain complexes.Domain) Complex {
 	return Complex{
 		Id: domain.Id,
 		Name: domain.Name,
+		Address: domain.Address,
 		Img: domain.Img,
 		CreatedAt 	:domain.CreatedAt,
 		UpdatedAt 	:domain.UpdatedAt,

@@ -10,6 +10,7 @@ import (
 type ComplexResponse struct {
 	Id        uint           `json:"id"`
 	Name      string         `json:"name"`
+	Address	  string 		 `json:"address"`
 	Img       string         `json:"img"`
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
@@ -20,6 +21,7 @@ func FromDomainComplex(domain complexes.Domain) ComplexResponse {
 	return ComplexResponse{
 		Id:        domain.Id,
 		Name:      domain.Name,
+		Address:   domain.Address,
 		Img:       domain.Img,
 		CreatedAt: domain.CreatedAt,
 		UpdatedAt: domain.UpdatedAt,

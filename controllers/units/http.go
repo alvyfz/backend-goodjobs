@@ -7,6 +7,7 @@ import (
 	"goodjobs/controllers/units/response"
 	"goodjobs/helpers"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -48,6 +49,21 @@ func (unitController *UnitController) GetAll(c echo.Context) error {
 	return controllers.NewSuccesResponse(c, response.GetAll(unit))
 
 }
+
+func (unitController *UnitController) GetByID(c echo.Context) error{
+	req := c.Request().Context()
+	id := c.Param("id")
+	Convint, errConvint := strconv.Atoi(id)
+	if errConvint != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, errConvint)
+	}
+	data, err := unitController.unitUseCase.GetByID(uint(Convint), req )
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromDomainUnit(data))
+}
+
 
 func (unitController *UnitController) Edit (c echo.Context) error{
 	id := c.Param("id")

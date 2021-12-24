@@ -11,7 +11,7 @@ import (
 type BuildingResponse struct {
 	Id          uint 	`gorm:"primaryKey"`
 	Complex_ID  uint	`json:"complex_id"`
-	Complex     respComp.ComplexResponse
+	Complex     respComp.ComplexResponse	`json:"complex"`
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
 	Size        uint    `json:"size"`
@@ -22,6 +22,7 @@ type BuildingResponse struct {
 	Img         string  `json:"img"`
 	Latitude    float64 `json:"latitude"`
 	Longitude   float64 `json:"longitude"`
+	PriceStart	uint	`json:"pricestart"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
@@ -42,6 +43,7 @@ func FromDomainBuilding(domain buildings.Domain) BuildingResponse {
 		Img					:domain.Img,
 		Latitude			:domain.Latitude,
 		Longitude			:domain.Longitude,
+		PriceStart			:domain.PriceStart,
 		CreatedAt			:domain.CreatedAt,
 		UpdatedAt			:domain.UpdatedAt,
 	}

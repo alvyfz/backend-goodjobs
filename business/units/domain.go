@@ -25,6 +25,7 @@ type Domain struct {
 type UnitUsecaseInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	GetByID(id uint, ctx context.Context) (Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context) error
 }
@@ -32,6 +33,7 @@ type UnitUsecaseInterface interface {
 type UnitRepoInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	GetByID(id uint, ctx context.Context) (Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context) error
 }

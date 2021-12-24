@@ -20,6 +20,7 @@ func (Repo *complexRepo) Add(ctx context.Context, domain complexes.Domain) (comp
 	complex := Complex{
 		Id 			:domain.Id,
 		Name 		:domain.Name,
+		Address		:domain.Address,
 		Img			:domain.Img,
 	}
 	err := Repo.DB.Create(&complex)
@@ -36,6 +37,15 @@ func (Repo *complexRepo) GetAll(ctx context.Context) ([]complexes.Domain, error)
 		return []complexes.Domain{}, err.Error
 	}
 	return GetAll(complex), nil
+}
+
+func (Repo *complexRepo) GetByID(id uint, ctx context.Context ) (complexes.Domain, error){
+	var complex Complex
+	err := Repo.DB.Find(&complex, "id=?", id)
+	if err.Error != nil {
+		return complexes.Domain{}, err.Error
+	}
+	return complex.ToDomain(), nil
 }
 
 func (Repo *complexRepo) Edit(id uint, ctx context.Context, domain complexes.Domain) (complexes.Domain, error){

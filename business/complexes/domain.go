@@ -13,12 +13,14 @@ type Domain struct {
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 	Name      string
+	Address	  string
 	Img		  string
 }
 
 type ComplexUsecaseInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	GetByID(id uint, ctx context.Context) (Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context) error
 }
@@ -26,6 +28,7 @@ type ComplexUsecaseInterface interface {
 type ComplexRepoInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	GetByID(id uint, ctx context.Context) (Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context) error
 }

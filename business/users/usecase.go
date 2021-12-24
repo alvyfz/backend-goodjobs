@@ -48,7 +48,7 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 		return Domain{},"", errors.New("password belum di isi")
 	
 	}
-	user, err := usecase.repo.GetEmail(ctx, email)
+	user, err := usecase.repo.GetEmail(ctx, email, password)
 	if err != nil {
 		return Domain{},"", err
 	}

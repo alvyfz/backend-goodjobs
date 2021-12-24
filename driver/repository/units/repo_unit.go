@@ -42,6 +42,16 @@ func (Repo *unitRepo) GetAll(ctx context.Context) ([]units.Domain, error) {
 	return GetAll(unit), nil
 }
 
+func (Repo *unitRepo) GetByID(id uint, ctx context.Context ) (units.Domain, error){
+	var unit Unit
+	// err := Repo.DB.Preload("Building").Joins("Complex").Find(&unit, "id=?", id)
+	err := Repo.DB.Preload("Building").Find(&unit, "id=?", id)
+	if err.Error != nil {
+		return units.Domain{}, err.Error
+	}
+	return unit.ToDomain(), nil
+}
+
 func (Repo *unitRepo) Edit(id uint, ctx context.Context, domain units.Domain) (units.Domain, error) {
 	unit := FromDomain(domain)
 	if Repo.DB.Save(&unit).Error != nil {
@@ -49,6 +59,8 @@ func (Repo *unitRepo) Edit(id uint, ctx context.Context, domain units.Domain) (u
 	}
 	return unit.ToDomain(), nil
 }
+
+
 
 func (Repo *unitRepo) Delete(id uint, ctx context.Context) error {
 	unit := Unit{}

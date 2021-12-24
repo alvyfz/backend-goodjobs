@@ -22,16 +22,17 @@ type RouteControllerList struct {
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 
-	user := e.Group("user", middleware.JWTWithConfig(ctrl.JWTMiddleware))
+	// user := e.Group("user", middleware.JWTWithConfig(ctrl.JWTMiddleware))
 
-	user.PUT("/:id", ctrl.UserController.UpdateUserByID)
-	user.DELETE("/:id", ctrl.UserController.DeleteUserByID)
+	// user.PUT("/:id", ctrl.UserController.UpdateUserByID)
+	jwt := middleware.JWTWithConfig(ctrl.JWTMiddleware)
+	
+	e.DELETE("/:id", ctrl.UserController.DeleteUserByID, jwt)
 	e.POST("user/register", ctrl.UserController.RegisterUser)
 	e.POST("user/login", ctrl.UserController.LoginUser)
 	e.GET("user/:id", ctrl.UserController.GetByID)
 	e.GET("users", ctrl.UserController.GetAllUsers)
-	// e.PUT("user/:id", ctrl.UserController.UpdateUserByID)
-	// e.DELETE("user/:id", ctrl.UserController.DeleteUserByID)
+	e.PUT("user/:id", ctrl.UserController.UpdateUserByID)
 
 	e.POST("role/add", ctrl.RoleController.Add)
 	e.GET("roles", ctrl.RoleController.GetAll)
@@ -39,16 +40,19 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	
 	e.POST("complex/add", ctrl.ComplexController.Add)
 	e.GET("complexes", ctrl.ComplexController.GetAll)
+	e.GET("complex/:id", ctrl.ComplexController.GetByID)
 	e.PUT("complex/:id", ctrl.ComplexController.Edit)
 	e.DELETE("complex/:id", ctrl.ComplexController.Delete)
 
 	e.POST("building/add", ctrl.BuildingController.Add)
 	e.GET("buildings", ctrl.BuildingController.GetAll)
+	e.GET("building/:id", ctrl.BuildingController.GetByID)
 	e.PUT("building/:id", ctrl.BuildingController.Edit)
 	e.DELETE("building/:id", ctrl.BuildingController.Delete)
 
 	e.POST("unit/add", ctrl.UnitController.Add)
 	e.GET("units", ctrl.UnitController.GetAll)
+	e.GET("unit/:id", ctrl.UnitController.GetByID)
 	e.PUT("unit/:id", ctrl.UnitController.Edit)
 	e.DELETE("unit/:id", ctrl.BuildingController.Delete)
 }

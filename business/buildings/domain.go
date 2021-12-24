@@ -25,11 +25,13 @@ type Domain struct {
 	Img 		string
 	Latitude 	float64
 	Longitude 	float64
+	PriceStart	uint
 }
 
 type BuildingUsecaseInterface interface{
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	GetByID(id uint, ctx context.Context) (Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context)error
 }
@@ -37,6 +39,7 @@ type BuildingUsecaseInterface interface{
 type BuildingRepoInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	GetByID(id uint, ctx context.Context) (Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context)error
 }
