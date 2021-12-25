@@ -74,7 +74,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.CORS())
 	userRepoInterface := userRepo.NewUserRepo(DB)
-	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &_middleware.ConfigJWT{})
+	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &configJWT)
 	userUseControllerInterface := userController.NewUserController(userUseCaseInterface)
 
 	roleRepoInterface := roleRepo.NewRoleRepo(DB)

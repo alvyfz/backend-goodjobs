@@ -27,7 +27,7 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	// user.PUT("/:id", ctrl.UserController.UpdateUserByID)
 	jwt := middleware.JWTWithConfig(ctrl.JWTMiddleware)
 	
-	e.DELETE("/:id", ctrl.UserController.DeleteUserByID, jwt)
+	e.DELETE("/user/:id", ctrl.UserController.DeleteUserByID, jwt)
 	e.POST("user/register", ctrl.UserController.RegisterUser)
 	e.POST("user/login", ctrl.UserController.LoginUser)
 	e.GET("user/:id", ctrl.UserController.GetByID)

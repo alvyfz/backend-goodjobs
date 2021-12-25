@@ -16,11 +16,11 @@ type UserUseCase struct {
 
 
 
-func NewUseCase(userRepo UserRepoInterface, ctx time.Duration, JWTAuth *middlewares.ConfigJWT) *UserUseCase {
+func NewUseCase(userRepo UserRepoInterface, ctx time.Duration, JWTAuth2 *middlewares.ConfigJWT) *UserUseCase {
 	return &UserUseCase{
 		repo: 		userRepo,
 		ctx:		ctx,
-		JWTAuth: 	JWTAuth,
+		JWTAuth: 	JWTAuth2,
 	}
 }
 

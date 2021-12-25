@@ -4,6 +4,7 @@ import (
 	// controller "goodjobs/controllers"
 	// "net/http"
 
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -26,6 +27,7 @@ type ConfigJWT struct {
 }
 
 func (jwtConf *ConfigJWT) Init() middleware.JWTConfig{
+    fmt.Println(jwtConf.SecretJWT)
 	return middleware.JWTConfig{
 		Claims: &JWTCustomClaims{},
 		SigningKey: []byte(jwtConf.SecretJWT),
@@ -48,6 +50,8 @@ func (jwtConf *ConfigJWT) GenerateTokenJWT(id uint, email string, name string, p
             ExpiresAt: time.Now().Add(time.Hour*3).Local().Add(time.Hour * time.Duration(int64(jwtConf.ExpiresDuration))).Unix(),
         },
     }
+    fmt.Println(claims)
+    fmt.Println(jwtConf.SecretJWT)
     t := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
     token, err := t.SignedString([]byte(jwtConf.SecretJWT))
     return token, err
