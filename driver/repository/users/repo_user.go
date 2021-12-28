@@ -49,6 +49,15 @@ func (Repo *userRepo) GetByID(id uint, ctx context.Context ) (users.Domain, erro
 	return user.ToDomain(), nil
 }
 
+func (Repo *userRepo) GetByEmail(email string, ctx context.Context ) (users.Domain, error){
+	var user User
+	err := Repo.DB.Find(&user, "email=?", email).Joins("Role")
+	if err.Error != nil {
+		return users.Domain{}, errors.New("user not found")
+	}
+	return user.ToDomain(), nil
+}
+
 func (Repo *userRepo) GetAllUsers(ctx context.Context) ([]users.Domain, error){
 	var user []User
 	// config.DB.Find(&transaction).Joins("User", "Property")

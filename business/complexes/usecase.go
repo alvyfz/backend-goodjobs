@@ -34,7 +34,7 @@ func (usecase *ComplexUseCase) Add(ctx context.Context, domain Domain) (Domain, 
 func (usecase *ComplexUseCase) GetAll(ctx context.Context) ([]Domain, error) {
 	complex, err := usecase.repo.GetAll(ctx)
 	if err != nil {
-		return []Domain{}, errors.New("tidak ada complex")
+		return []Domain{}, errors.New("complex Not Found")
 	}
 	return complex, nil
 }

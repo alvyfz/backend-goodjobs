@@ -145,6 +145,15 @@ func TestLogin(t *testing.T) {
 		assert.Error(t, err)
 	})
 
+	t.Run("Test Case 4 | No Token ", func(t *testing.T) {
+		setup()
+		userRepository.On("GetEmail", mock.Anything, mock.AnythingOfType("string")).Return(users.Domain{}, errors.New("token kosong bre")).Once()
+		data, _, err := userService.LoginUser(userDomain.Email, userDomain.Password, context.Background())
+
+		assert.Equal(t, users.Domain{}, data, token, "")
+		assert.NoError(t, err)
+	})
+
 	
 }
 
@@ -169,17 +178,51 @@ func TestGetById(t *testing.T) {
 		assert.Equal(t, data, users.Domain{})
 	})
 
-	t.Run("Test case 3 | Error GetByID", func(t *testing.T) {
-		setup()
-		userRepository.On("GetByID", mock.Anything , mock.AnythingOfType("uint") ,mock.Anything ).Return(users.Domain{}, nil).Once()
-		data, err := userService.GetByID(3, context.Background())
+	// t.Run("Test case 3 | Error GetByID", func(t *testing.T) {
+	// 	setup()
+	// 	userDomain.Id = 0
+	// 	userRepository.On("GetByID", mock.Anything , mock.AnythingOfType("uint") ,mock.Anything ).Return(users.Domain{}, nil).Once()
+	// 	data, err := userService.GetByID(3, context.Background())
 
-		assert.NoError(t, err)
-		assert.NotNil(t, data)
-		assert.Equal(t, data, users.Domain{})
-	})
+	// 	assert.Error(t, err)
+	// 	assert.NotNil(t, data)
+	// 	assert.Equal(t, data, users.Domain{})
+	// })
 
 }
+
+// func TestGetByEmail(t *testing.T) {
+// 	t.Run("Test case 1 | Success GetByEmail", func(t *testing.T) {
+// 		setup()
+// 		userRepository.On("GetByEmail", mock.Anything , mock.AnythingOfType("uint") ,mock.Anything ).Return(userDomain, nil).Once()
+// 		user, err := userService.GetByEmail(userDomain.Email, context.Background())
+
+// 		assert.NoError(t, err)
+// 		assert.NotNil(t, user)
+// 	})
+
+// 	t.Run("Test case 2 | Error GetByEmail(user Id = 0)", func(t *testing.T) {
+// 		setup()
+// 		userDomain.Id = 0
+// 		userRepository.On("GetByEmail", mock.Anything , mock.AnythingOfType("uint") ,mock.Anything ).Return(userDomain, nil).Once()
+// 		data, err := userService.GetByEmail(userDomain.Email, context.Background())
+
+// 		assert.Error(t, err)
+// 		assert.NotNil(t, data)
+// 		assert.Equal(t, data, users.Domain{})
+// 	})
+
+// 	t.Run("Test case 3 | Error GetByEmail", func(t *testing.T) {
+// 		setup()
+// 		userRepository.On("GetByEmail", mock.Anything , mock.AnythingOfType("uint") ,mock.Anything ).Return(users.Domain{}, nil).Once()
+// 		data, err := userService.GetByEmail("dev@gmail.com", context.Background())
+
+// 		assert.NoError(t, err)
+// 		assert.NotNil(t, data)
+// 		assert.Equal(t, data, users.Domain{})
+// 	})
+
+// }
 
 func TestGetAllUsers(t *testing.T) {
 	t.Run("Test case 1 | Success Search user", func(t *testing.T) {
