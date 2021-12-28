@@ -64,6 +64,7 @@ func (complexController *ComplexController) GetByID(c echo.Context) error{
 	return controllers.NewSuccesResponse(c, response.FromDomainComplex(data))
 }
 
+
 func (complexController *ComplexController) Edit (c echo.Context) error{
 	id := c.Param("id")
 	convID, err := helpers.StringToUint(id)

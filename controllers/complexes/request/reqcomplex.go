@@ -3,9 +3,9 @@ package request
 import "goodjobs/business/complexes"
 
 type ComplexRequest struct {
-	Name string `json:"name"`
-	Address	  string `json:"address"`
-	Img  string `json:"img"`
+	Name 		string `json:"name"`
+	Address	  	string `json:"address"`
+	Img  		string `json:"img"`
 }
 
 func (Complex *ComplexRequest) ToDomain() *complexes.Domain {

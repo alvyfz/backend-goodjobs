@@ -40,6 +40,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            docker pull alvyfauzi/goodjobs-go; \
             docker rm -f goodjobs_go; \
+            docker rmi alvyfauzi/goodjobs-go:latest; \
+            docker pull alvyfauzi/goodjobs-go; \
             docker run -d -p 8080:8080 --name goodjobs_go alvyfauzi/goodjobs-go

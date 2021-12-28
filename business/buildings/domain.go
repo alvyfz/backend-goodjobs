@@ -32,6 +32,7 @@ type BuildingUsecaseInterface interface{
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
 	GetByID(id uint, ctx context.Context) (Domain, error)
+	GetByComplexID(complexid uint, ctx context.Context) (Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context)error
 }
@@ -40,6 +41,7 @@ type BuildingRepoInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
 	GetByID(id uint, ctx context.Context) (Domain, error)
+	GetByComplexID(complexid uint, ctx context.Context) (Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context)error
 }
