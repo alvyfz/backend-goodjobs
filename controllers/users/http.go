@@ -62,6 +62,20 @@ func (userController *UserController) LoginUser (c echo.Context) error {
 	return controllers.NewSuccesResponse(c, response.UserLogin(login, token))
 }
 
+func (userController *UserController) GetByEmail (c echo.Context) error {
+	ctx := c.Request().Context()
+	req := request.GetByEmailRequest{} 
+	err := c.Bind(&req)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	data, err := userController.userUseCase.GetByEmail(req.Email, ctx)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromUserRegister(data))
+}
+
 func (userController *UserController) GetByID (c echo.Context) error{
 	req := c.Request().Context()
 	id := c.Param("id")

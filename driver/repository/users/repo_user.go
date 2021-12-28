@@ -26,20 +26,34 @@ func (Repo *userRepo) RegisterUser(ctx context.Context, domain *users.Domain) (u
 	return user.ToDomain(), nil
 } 
 
-func (Repo *userRepo) GetEmail(ctx context.Context, email string) (users.Domain, error){
+func (Repo *userRepo) GetEmail(ctx context.Context, email string, password string) (users.Domain, error){
 	var user User
 	err := Repo.DB.Find(&user, "email=?", email)
 	if err.Error != nil {
-		return users.Domain{}, err.Error
+		return users.Domain{}, errors.New("email not registered")
 	}
+	if user.Password != password {
+        return users.Domain{}, errors.New("wrong password")
+    }
 	return user.ToDomain(), nil
+	
 }
+
 
 func (Repo *userRepo) GetByID(id uint, ctx context.Context ) (users.Domain, error){
 	var user User
 	err := Repo.DB.Find(&user, "id=?", id).Joins("Role")
 	if err.Error != nil {
-		return users.Domain{}, err.Error
+		return users.Domain{}, errors.New("user not found")
+	}
+	return user.ToDomain(), nil
+}
+
+func (Repo *userRepo) GetByEmail(email string, ctx context.Context ) (users.Domain, error){
+	var user User
+	err := Repo.DB.Find(&user, "email=?", email).Joins("Role")
+	if err.Error != nil {
+		return users.Domain{}, errors.New("user not found")
 	}
 	return user.ToDomain(), nil
 }
@@ -49,14 +63,14 @@ func (Repo *userRepo) GetAllUsers(ctx context.Context) ([]users.Domain, error){
 	// config.DB.Find(&transaction).Joins("User", "Property")
 	err := Repo.DB.Find(&user).Joins("Role")
 	if err.Error != nil {
-		return []users.Domain{}, err.Error
+		return []users.Domain{}, errors.New("user not found")
 	}
 	return GetAllUsers(user), nil
 }
 
 func (Repo *userRepo) UpdateUserByID(id uint, ctx context.Context, domain users.Domain) (users.Domain, error){
 	user := FromDomain(domain)
-	if Repo.DB.Save(&user).Error != nil {
+	if Repo.DB.Updates(&user).Error != nil {
 		return users.Domain{}, errors.New("id tidak ditemukan")
 	}
 	return user.ToDomain(), nil

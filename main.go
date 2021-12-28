@@ -15,6 +15,18 @@ import (
 	roleController "goodjobs/controllers/roles"
 	roleRepo "goodjobs/driver/repository/roles"
 
+	complexUseCase "goodjobs/business/complexes"
+	complexController "goodjobs/controllers/complexes"
+	complexRepo "goodjobs/driver/repository/complexes"
+
+	buildingUseCase "goodjobs/business/buildings"
+	buildingController "goodjobs/controllers/buildings"
+	buildingRepo "goodjobs/driver/repository/buildings"
+
+	unitUseCase "goodjobs/business/units"
+	unitController "goodjobs/controllers/units"
+	unitRepo "goodjobs/driver/repository/units"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
@@ -35,6 +47,9 @@ func init() {
 func DBMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&userRepo.User{})
 	DB.AutoMigrate(&roleRepo.Role{})
+	DB.AutoMigrate(&complexRepo.Complex{})
+	DB.AutoMigrate(&buildingRepo.Building{})
+	DB.AutoMigrate(&unitRepo.Unit{})
 }
 
 
@@ -59,16 +74,31 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.CORS())
 	userRepoInterface := userRepo.NewUserRepo(DB)
-	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &_middleware.ConfigJWT{})
+	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &configJWT)
 	userUseControllerInterface := userController.NewUserController(userUseCaseInterface)
 
 	roleRepoInterface := roleRepo.NewRoleRepo(DB)
 	roleUseCaseInterface := roleUseCase.NewUseCase(roleRepoInterface, timeoutContext)
 	roleUseControllerInterface := roleController.NewRoleController(roleUseCaseInterface)
 
+	complexRepoInterface := complexRepo.NewComplexRepo(DB)
+	complexUseCaseInterface := complexUseCase.NewUseCase(complexRepoInterface, timeoutContext)
+	complexUseControllerInterface := complexController.NewComplexController(complexUseCaseInterface)
+
+	buildingRepoInterface := buildingRepo.NewBuildingRepo(DB)
+	buildingUseCaseInterface := buildingUseCase.NewUseCase(buildingRepoInterface, timeoutContext)
+	buildingUseControllerInterface := buildingController.NewBuildingController(buildingUseCaseInterface)
+
+	unitRepoInterface := unitRepo.NewUnitRepo(DB)
+	unitUseCaseInterface := unitUseCase.NewUseCase(unitRepoInterface, timeoutContext)
+	unitUseControllerInterface := unitController.NewUnitController(unitUseCaseInterface)
+
 	routesInit := routes.RouteControllerList{
 		UserController: *userUseControllerInterface,
 		RoleController: *roleUseControllerInterface,
+		ComplexController: *complexUseControllerInterface,
+		BuildingController: *buildingUseControllerInterface,
+		UnitController: *unitUseControllerInterface,
 		JWTMiddleware: configJWT.Init(),
 	}
 	routesInit.RouteRegister(e)

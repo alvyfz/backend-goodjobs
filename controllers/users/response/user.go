@@ -26,13 +26,13 @@ type JWTResponse struct {
 
 func FromDomain(domain users.Domain) UserResponse {
 	return UserResponse{
-		Id:        domain.Id,
+		Id			:domain.Id,
 		CreatedAt	:domain.CreatedAt,
 		UpdatedAt	:domain.UpdatedAt,
-		Name:      domain.Name,
-		Email:     domain.Email,
-		Phone: domain.Phone,
-		Roles_ID: domain.Roles_ID,
+		Name		:domain.Name,
+		Email		:domain.Email,
+		Phone		:domain.Phone,
+		Roles_ID	:domain.Roles_ID,
 	}
 }
 

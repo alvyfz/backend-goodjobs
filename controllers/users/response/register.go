@@ -15,6 +15,5 @@ func FromUserRegister(domain users.Domain) UserResponse {
 		Email		:domain.Email,
 		Phone		:domain.Phone,
 		Roles_ID	:domain.Roles_ID,
-		// Role		:response.FromDomainRole(domain.Roles) ,
 	}
 }

@@ -16,11 +16,11 @@ type UserUseCase struct {
 
 
 
-func NewUseCase(userRepo UserRepoInterface, ctx time.Duration, JWTAuth *middlewares.ConfigJWT) *UserUseCase {
+func NewUseCase(userRepo UserRepoInterface, ctx time.Duration, JWTAuth2 *middlewares.ConfigJWT) *UserUseCase {
 	return &UserUseCase{
 		repo: 		userRepo,
 		ctx:		ctx,
-		JWTAuth: 	JWTAuth,
+		JWTAuth: 	JWTAuth2,
 	}
 }
 
@@ -48,11 +48,11 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 		return Domain{},"", errors.New("password belum di isi")
 	
 	}
-	user, err := usecase.repo.GetEmail(ctx, email)
+	user, err := usecase.repo.GetEmail(ctx, email, password)
 	if err != nil {
 		return Domain{},"", err
 	}
-	token, errToken := usecase.JWTAuth.GenerateTokenJWT(user.Id, user.Roles_ID)
+	token, errToken := usecase.JWTAuth.GenerateTokenJWT(user.Id, user.Email, user.Name, user.Phone , user.Roles_ID)
 	if errToken != nil {
 		log.Println(errToken)
 	}
@@ -60,6 +60,17 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 		return Domain{}, "", errors.New("token kosong bre")
 	}
 	return user, token, nil
+}
+
+func (usecase *UserUseCase) GetByEmail(email string, ctx context.Context) (Domain, error){
+	if email == "" {
+		return Domain{}, errors.New("email belum di isi")
+	}
+	user, err := usecase.repo.GetByEmail(email, ctx)
+	if err != nil {
+		return Domain{}, err
+	}
+	return user,  nil
 }
 
 func (usecase *UserUseCase) GetByID(id uint, ctx context.Context) (Domain, error){
@@ -72,6 +83,17 @@ func (usecase *UserUseCase) GetByID(id uint, ctx context.Context) (Domain, error
 	}
 	return user, nil
 }
+
+// func (usecase *UserUseCase) GetByEmail(email string, ctx context.Context) (Domain, error){
+// 	user, err := usecase.repo.GetByEmail(email, ctx)
+// 	if err != nil {
+// 		return Domain{}, errors.New("tidak ada user dengan email tersebut")
+// 	}
+// 	if email == "" {
+// 		return Domain{}, errors.New("email harus diisi")
+// 	}
+// 	return user, nil
+// }
 
 func (usecase *UserUseCase) GetAllUsers(ctx context.Context) ([]Domain, error){
 	user, err := usecase.repo.GetAllUsers(ctx)
