@@ -14,7 +14,7 @@ type Building struct {
 	Complex     complexes.Complex `gorm:"constraint:OnUpdate:CASCADE,OnDelete:RESTRICT;"`
 	Name        string			`gorm:"unique"`
 	Description string			
-	Size        uint
+	Size        float64
 	Floor       int
 	OfficeHours string
 	Address     string
@@ -72,7 +72,7 @@ func FromDomain(domain buildings.Domain) Building {
 	}
 }
 
-func GetAll(data []Building) []buildings.Domain{
+func ToDomainArray(data []Building) []buildings.Domain{
 	res := []buildings.Domain{}
 	for _, val := range data{
 		res = append(res, val.ToDomain())

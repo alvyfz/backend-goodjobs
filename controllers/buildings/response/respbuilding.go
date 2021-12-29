@@ -14,7 +14,7 @@ type BuildingResponse struct {
 	Complex     respComp.ComplexResponse	`json:"complex"`
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
-	Size        uint    `json:"size"`
+	Size        float64    `json:"size"`
 	Floor       int     `json:"floor"`
 	OfficeHours string  `json:"officehours"`
 	Address     string  `json:"address"`
@@ -49,7 +49,7 @@ func FromDomainBuilding(domain buildings.Domain) BuildingResponse {
 	}
 }
 
-func GetAll(data []buildings.Domain) []BuildingResponse{
+func FromDomainBuildingArray(data []buildings.Domain) []BuildingResponse{
 	var res []BuildingResponse
 	for _, val := range data{
 		res = append(res, FromDomainBuilding(val))

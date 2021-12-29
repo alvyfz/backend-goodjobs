@@ -46,7 +46,7 @@ func (buildingController *BuildingController) GetAll(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
-	return controllers.NewSuccesResponse(c, response.GetAll(Building))
+	return controllers.NewSuccesResponse(c, response.FromDomainBuildingArray(Building))
 
 }
 
@@ -75,7 +75,7 @@ func (buildingController *BuildingController) GetByComplexID(c echo.Context) err
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccesResponse(c, response.FromDomainBuilding(data))
+	return controllers.NewSuccesResponse(c, response.FromDomainBuildingArray(data))
 }
 
 func (buildingController *BuildingController) Edit (c echo.Context) error{

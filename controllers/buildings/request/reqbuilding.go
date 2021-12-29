@@ -6,7 +6,7 @@ type BuildingRequest struct {
 	Complex_ID	uint	`json:"complex_id"`
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
-	Size        uint    `json:"size"`
+	Size        float64    `json:"size"`
 	Floor       int     `json:"floor"`
 	OfficeHours string  `json:"officehours"`
 	Address     string  `json:"address"`
