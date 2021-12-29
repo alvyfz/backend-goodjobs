@@ -64,6 +64,19 @@ func (unitController *UnitController) GetByID(c echo.Context) error{
 	return controllers.NewSuccesResponse(c, response.FromDomainUnit(data))
 }
 
+func (unitController *UnitController) GetByBuildingID(c echo.Context) error{
+	req := c.Request().Context()
+	buildingid := c.Param("buildingid")
+	Convint, errConvint := strconv.Atoi(buildingid)
+	if errConvint != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, errConvint)
+	}
+	data, err := unitController.unitUseCase.GetByBuildingID(uint(Convint), req )
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromDomainUnit(data))
+}
 
 func (unitController *UnitController) Edit (c echo.Context) error{
 	id := c.Param("id")

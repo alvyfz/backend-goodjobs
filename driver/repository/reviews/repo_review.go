@@ -12,7 +12,7 @@ type reviewRepo struct {
 	DB *gorm.DB
 }
 
-func NewreviewRepo(DB *gorm.DB) *reviewRepo {
+func NewReviewRepo(DB *gorm.DB) *reviewRepo {
 	return &reviewRepo{DB: DB}
 }
 
@@ -33,7 +33,7 @@ func (Repo *reviewRepo) Add(ctx context.Context, domain reviews.Domain) (reviews
 
 func (Repo *reviewRepo) GetAll(ctx context.Context) ([]reviews.Domain, error){
 	var review []Review
-	err := Repo.DB.Find(&review)
+	err := Repo.DB.Preload("user").Find(&review)
 	if err.Error != nil {
 		return []reviews.Domain{}, err.Error
 	}

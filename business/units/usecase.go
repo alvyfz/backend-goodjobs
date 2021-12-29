@@ -49,6 +49,17 @@ func (usecase *UnitUseCase) GetByID(id uint, ctx context.Context) (Domain, error
 	return user, nil
 }
 
+func (usecase *UnitUseCase) GetByBuildingID(buildingid uint, ctx context.Context) (Domain, error){
+	unit, err := usecase.repo.GetByBuildingID(buildingid, ctx)
+	if err != nil {
+		return Domain{}, errors.New("tidak ada building dengan ID tersebut")
+	}
+	if buildingid == 0 {
+		return Domain{}, errors.New("buildingID harus diisi")
+	}
+	return unit, nil
+}
+
 func (usecase *UnitUseCase) Edit(id uint, ctx context.Context, domain Domain) (Domain, error){
 	domain.Id = (id)
 	user, err := usecase.repo.Edit(id, ctx , domain)

@@ -52,6 +52,15 @@ func (Repo *unitRepo) GetByID(id uint, ctx context.Context ) (units.Domain, erro
 	return unit.ToDomain(), nil
 }
 
+func (Repo *unitRepo) GetByBuildingID(buildingid uint, ctx context.Context ) (units.Domain, error){
+	var unit Unit
+	err := Repo.DB.Preload("Building").Find(&unit, "building_id=?", buildingid)
+	if err.Error != nil {
+		return units.Domain{}, err.Error
+	}
+	return unit.ToDomain(), nil
+}
+
 func (Repo *unitRepo) Edit(id uint, ctx context.Context, domain units.Domain) (units.Domain, error) {
 	unit := FromDomain(domain)
 	if Repo.DB.Save(&unit).Error != nil {
