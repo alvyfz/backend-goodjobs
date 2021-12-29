@@ -8,6 +8,7 @@ import (
 	"goodjobs/controllers/reviews/response"
 	"goodjobs/helpers"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -51,6 +52,19 @@ func (reviewController *ReviewController) GetAll(c echo.Context) error {
 
 }
 
+func (reviewController *ReviewController) GetByBuildingID(c echo.Context) error{
+	req := c.Request().Context()
+	buildingid := c.Param("buildingid")
+	Convint, errConvint := strconv.Atoi(buildingid)
+	if errConvint != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, errConvint)
+	}
+	data, err := reviewController.reviewUseCase.GetByBuildingID(uint(Convint), req )
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromDomainReview(data))
+}
 
 func (reviewController *ReviewController) Edit (c echo.Context) error{
 	id := c.Param("id")
