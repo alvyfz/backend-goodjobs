@@ -46,7 +46,7 @@ func (unitController *UnitController) GetAll(c echo.Context) error {
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
-	return controllers.NewSuccesResponse(c, response.GetAll(unit))
+	return controllers.NewSuccesResponse(c, response.FromDomainUnitArray(unit))
 
 }
 
@@ -75,7 +75,7 @@ func (unitController *UnitController) GetByBuildingID(c echo.Context) error{
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccesResponse(c, response.FromDomainUnit(data))
+	return controllers.NewSuccesResponse(c, response.FromDomainUnitArray(data))
 }
 
 func (unitController *UnitController) Edit (c echo.Context) error{

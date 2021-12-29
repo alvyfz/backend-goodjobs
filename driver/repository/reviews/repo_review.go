@@ -33,20 +33,20 @@ func (Repo *reviewRepo) Add(ctx context.Context, domain reviews.Domain) (reviews
 
 func (Repo *reviewRepo) GetAll(ctx context.Context) ([]reviews.Domain, error){
 	var review []Review
-	err := Repo.DB.Preload("user").Find(&review)
+	err := Repo.DB.Preload("User").Find(&review)
 	if err.Error != nil {
 		return []reviews.Domain{}, err.Error
 	}
-	return GetAll(review), nil
+	return ToDomainArray(review), nil
 }
 
-func (Repo *reviewRepo) GetByBuildingID(buildingid uint, ctx context.Context ) (reviews.Domain, error){
-	var review Review
+func (Repo *reviewRepo) GetByBuildingID(buildingid uint, ctx context.Context ) ([]reviews.Domain, error){
+	var review []Review
 	err := Repo.DB.Preload("Building").Find(&review, "building_id=?", buildingid)
 	if err.Error != nil {
-		return reviews.Domain{}, err.Error
+		return []reviews.Domain{}, err.Error
 	}
-	return review.ToDomain(), nil
+	return ToDomainArray(review), nil
 }
 
 func (Repo *reviewRepo) Edit(id uint, ctx context.Context, domain reviews.Domain) (reviews.Domain, error){

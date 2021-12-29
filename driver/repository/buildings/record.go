@@ -72,7 +72,7 @@ func FromDomain(domain buildings.Domain) Building {
 	}
 }
 
-func GetAll(data []Building) []buildings.Domain{
+func ToDomainArray(data []Building) []buildings.Domain{
 	res := []buildings.Domain{}
 	for _, val := range data{
 		res = append(res, val.ToDomain())

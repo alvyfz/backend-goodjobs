@@ -44,11 +44,11 @@ func (reviewController *ReviewController) Add(c echo.Context) error {
 
 func (reviewController *ReviewController) GetAll(c echo.Context) error {
 	req := c.Request().Context()
-	Review, err := reviewController.reviewUseCase.GetAll(req)
+	review, err := reviewController.reviewUseCase.GetAll(req)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
-	return controllers.NewSuccesResponse(c, response.GetAll(Review))
+	return controllers.NewSuccesResponse(c, response.FromDomainReviewArray(review))
 
 }
 
@@ -63,7 +63,7 @@ func (reviewController *ReviewController) GetByBuildingID(c echo.Context) error{
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccesResponse(c, response.FromDomainReview(data))
+	return controllers.NewSuccesResponse(c, response.FromDomainReviewArray(data))
 }
 
 func (reviewController *ReviewController) Edit (c echo.Context) error{

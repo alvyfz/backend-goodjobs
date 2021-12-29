@@ -30,6 +30,7 @@ func (Repo *buildingRepo) Add(ctx context.Context, domain buildings.Domain) (bui
 		Img					:domain.Img,
 		Latitude			:domain.Latitude,
 		Longitude			:domain.Longitude,
+		PriceStart			:domain.PriceStart,
 	}
 	err := Repo.DB.Create(&building)
 	if err.Error != nil {
@@ -44,7 +45,7 @@ func (Repo *buildingRepo) GetAll(ctx context.Context) ([]buildings.Domain, error
 	if err.Error != nil {
 		return []buildings.Domain{}, err.Error
 	}
-	return GetAll(building), nil
+	return ToDomainArray(building), nil
 
 }
 
@@ -57,13 +58,13 @@ func (Repo *buildingRepo) GetByID(id uint, ctx context.Context ) (buildings.Doma
 	return building.ToDomain(), nil
 }
 
-func (Repo *buildingRepo) GetByComplexID(complexid uint, ctx context.Context ) (buildings.Domain, error){
-	var building Building
+func (Repo *buildingRepo) GetByComplexID(complexid uint, ctx context.Context ) ([]buildings.Domain, error){
+	var building []Building
 	err := Repo.DB.Preload("Complex").Find(&building, "complex_id=?", complexid)
 	if err.Error != nil {
-		return buildings.Domain{}, err.Error
+		return []buildings.Domain{}, err.Error
 	}
-	return building.ToDomain(), nil
+	return ToDomainArray(building), nil
 }
 
 func (Repo *buildingRepo) Edit(id uint, ctx context.Context, domain buildings.Domain) (buildings.Domain, error){

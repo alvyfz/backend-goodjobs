@@ -49,7 +49,7 @@ func FromDomainBuilding(domain buildings.Domain) BuildingResponse {
 	}
 }
 
-func GetAll(data []buildings.Domain) []BuildingResponse{
+func FromDomainBuildingArray(data []buildings.Domain) []BuildingResponse{
 	var res []BuildingResponse
 	for _, val := range data{
 		res = append(res, FromDomainBuilding(val))

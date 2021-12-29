@@ -37,7 +37,7 @@ func FromDomainUnit(domain units.Domain) UnitResponse {
 	}
 }
 
-func GetAll(data []units.Domain) []UnitResponse{
+func FromDomainUnitArray(data []units.Domain) []UnitResponse{
 	var res []UnitResponse
 	for _, val := range data{
 		res = append(res, FromDomainUnit(val))

@@ -63,6 +63,7 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 
 	e.POST("review", ctrl.ReviewController.Add)
 	e.GET("reviews", ctrl.ReviewController.GetAll)
+	e.GET("reviews/building/:buildingid", ctrl.ReviewController.GetByBuildingID)
 	e.PUT("review/:id", ctrl.ReviewController.Edit)
 	e.DELETE("review/:id", ctrl.ReviewController.Delete)
 }

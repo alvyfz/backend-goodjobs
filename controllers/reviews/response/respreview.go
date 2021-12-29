@@ -36,7 +36,7 @@ func FromDomainReview(domain reviews.Domain) ReviewResponse {
 	}
 }
 
-func GetAll(data []reviews.Domain) []ReviewResponse{
+func FromDomainReviewArray(data []reviews.Domain) []ReviewResponse{
 	var res []ReviewResponse
 	for _, val := range data{
 		res = append(res, FromDomainReview(val))

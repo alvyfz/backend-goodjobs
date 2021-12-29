@@ -54,7 +54,7 @@ func FromDomain(domain units.Domain) Unit {
 
 }
 
-func GetAll(data []Unit) []units.Domain{
+func ToDomainArray(data []Unit) []units.Domain{
 	res := []units.Domain{}
 	for _, val := range data{
 		res = append(res, val.ToDomain())

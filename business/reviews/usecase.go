@@ -41,13 +41,13 @@ func (usecase *ReviewUseCase) GetAll(ctx context.Context) ([]Domain, error) {
 	return review, nil
 }
 
-func (usecase *ReviewUseCase) GetByBuildingID(buildingid uint, ctx context.Context) (Domain, error){
+func (usecase *ReviewUseCase) GetByBuildingID(buildingid uint, ctx context.Context) ([]Domain, error){
 	unit, err := usecase.repo.GetByBuildingID(buildingid, ctx)
 	if err != nil {
-		return Domain{}, errors.New("tidak ada building dengan ID tersebut")
+		return []Domain{}, errors.New("tidak ada building dengan ID tersebut")
 	}
 	if buildingid == 0 {
-		return Domain{}, errors.New("buildingID harus diisi")
+		return []Domain{}, errors.New("buildingID harus diisi")
 	}
 	return unit, nil
 }
