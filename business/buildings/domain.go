@@ -17,7 +17,7 @@ type Domain struct {
 	Complex		complexes.Domain
 	Name        string
 	Description string
-	Size 		uint
+	Size 		float64
 	Floor 		int
 	OfficeHours string
 	Address	 	string

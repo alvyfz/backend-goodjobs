@@ -14,7 +14,7 @@ type BuildingResponse struct {
 	Complex     respComp.ComplexResponse	`json:"complex"`
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
-	Size        uint    `json:"size"`
+	Size        float64    `json:"size"`
 	Floor       int     `json:"floor"`
 	OfficeHours string  `json:"officehours"`
 	Address     string  `json:"address"`

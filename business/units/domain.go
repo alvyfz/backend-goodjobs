@@ -18,7 +18,7 @@ type Domain struct {
 	Building	buildings.Domain
 	Description string
 	Price       uint
-	UnitSize    uint
+	UnitSize    float64
 	Img         string
 }
 

@@ -15,7 +15,7 @@ type UnitResponse struct {
 	Building	respBuil.BuildingResponse	`json:"building"`
 	Description string			`json:"description"`
 	Price       uint			`json:"price"`
-	UnitSize    uint			`json:"unitsize"`
+	UnitSize    float64			`json:"unitsize"`
 	Img         string			`json:"img"`
 	CreatedAt   time.Time       `json:"createdAt"`
 	UpdatedAt   time.Time       `json:"updatedAt"`

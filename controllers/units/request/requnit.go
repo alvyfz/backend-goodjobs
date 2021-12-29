@@ -7,7 +7,7 @@ type UnitRequest struct {
 	Building_ID uint   `json:"building_id"`
 	Description string `json:"description"`
 	Price       uint   `json:"price"`
-	UnitSize    uint   `json:"unitsize"`
+	UnitSize    float64   `json:"unitsize"`
 	Img         string `json:"img"`
 }
 

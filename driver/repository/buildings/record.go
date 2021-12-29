@@ -14,7 +14,7 @@ type Building struct {
 	Complex     complexes.Complex `gorm:"constraint:OnUpdate:CASCADE,OnDelete:RESTRICT;"`
 	Name        string			`gorm:"unique"`
 	Description string			
-	Size        uint
+	Size        float64
 	Floor       int
 	OfficeHours string
 	Address     string

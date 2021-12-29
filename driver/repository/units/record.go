@@ -15,7 +15,7 @@ type Unit struct {
 	Building    buildings.Building	`gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Description string
 	Price       uint
-	UnitSize    uint
+	UnitSize    float64
 	Img         string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
