@@ -9,17 +9,17 @@ import (
 )
 
 type UnitResponse struct {
-	Id          uint   `json:"id"`
-	Name        string `gorm:"unique"`
-	Building_ID uint		`json:"building_id"`
+	Id          uint   			`json:"id"`
+	Name        string 			`gorm:"unique"`
+	Building_ID uint			`json:"building_id"`
 	Building	respBuil.BuildingResponse	`json:"building"`
-	Description string		`json:"description"`
-	Price       uint		`json:"price"`
-	UnitSize    uint		`json:"unitsize"`
-	Img         string		`json:"img"`
-	CreatedAt   time.Time      `json:"createdAt"`
-	UpdatedAt   time.Time      `json:"updatedAt"`
-	DeletedAt   gorm.DeletedAt `json:"deletedAt"`
+	Description string			`json:"description"`
+	Price       uint			`json:"price"`
+	UnitSize    uint			`json:"unitsize"`
+	Img         string			`json:"img"`
+	CreatedAt   time.Time       `json:"createdAt"`
+	UpdatedAt   time.Time       `json:"updatedAt"`
+	DeletedAt   gorm.DeletedAt  `json:"deletedAt"`
 }
 
 func FromDomainUnit(domain units.Domain) UnitResponse {

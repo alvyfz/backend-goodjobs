@@ -57,6 +57,15 @@ func (Repo *buildingRepo) GetByID(id uint, ctx context.Context ) (buildings.Doma
 	return building.ToDomain(), nil
 }
 
+func (Repo *buildingRepo) GetByComplexID(complexid uint, ctx context.Context ) (buildings.Domain, error){
+	var building Building
+	err := Repo.DB.Preload("Complex").Find(&building, "complex_id=?", complexid)
+	if err.Error != nil {
+		return buildings.Domain{}, err.Error
+	}
+	return building.ToDomain(), nil
+}
+
 func (Repo *buildingRepo) Edit(id uint, ctx context.Context, domain buildings.Domain) (buildings.Domain, error){
 	building := FromDomain(domain)
 	if Repo.DB.Save(&building).Error != nil {

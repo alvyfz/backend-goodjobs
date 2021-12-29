@@ -64,6 +64,20 @@ func (buildingController *BuildingController) GetByID(c echo.Context) error{
 	return controllers.NewSuccesResponse(c, response.FromDomainBuilding(data))
 }
 
+func (buildingController *BuildingController) GetByComplexID(c echo.Context) error{
+	req := c.Request().Context()
+	complexid := c.Param("complexid")
+	Convint, errConvint := strconv.Atoi(complexid)
+	if errConvint != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, errConvint)
+	}
+	data, err := buildingController.buildingUseCase.GetByComplexID(uint(Convint), req )
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromDomainBuilding(data))
+}
+
 func (buildingController *BuildingController) Edit (c echo.Context) error{
 	id := c.Param("id")
 	convID, err := helpers.StringToUint(id)

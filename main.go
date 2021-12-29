@@ -27,6 +27,10 @@ import (
 	unitController "goodjobs/controllers/units"
 	unitRepo "goodjobs/driver/repository/units"
 
+	reviewUseCase "goodjobs/business/reviews"
+	reviewController "goodjobs/controllers/reviews"
+	reviewRepo "goodjobs/driver/repository/reviews"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
@@ -50,6 +54,8 @@ func DBMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&complexRepo.Complex{})
 	DB.AutoMigrate(&buildingRepo.Building{})
 	DB.AutoMigrate(&unitRepo.Unit{})
+	DB.AutoMigrate(&reviewRepo.Review{})
+
 }
 
 
@@ -93,12 +99,17 @@ func main() {
 	unitUseCaseInterface := unitUseCase.NewUseCase(unitRepoInterface, timeoutContext)
 	unitUseControllerInterface := unitController.NewUnitController(unitUseCaseInterface)
 
+	reviewRepoInterface := reviewRepo.NewReviewRepo(DB)
+	reviewUseCaseInterface := reviewUseCase.NewUseCase(reviewRepoInterface, timeoutContext)
+	reviewUseControllerInterface := reviewController.NewReviewController(reviewUseCaseInterface)
+
 	routesInit := routes.RouteControllerList{
 		UserController: *userUseControllerInterface,
 		RoleController: *roleUseControllerInterface,
 		ComplexController: *complexUseControllerInterface,
 		BuildingController: *buildingUseControllerInterface,
 		UnitController: *unitUseControllerInterface,
+		ReviewController: *reviewUseControllerInterface,
 		JWTMiddleware: configJWT.Init(),
 	}
 	routesInit.RouteRegister(e)

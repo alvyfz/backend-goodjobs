@@ -49,6 +49,17 @@ func (usecase *BuildingUseCase) GetByID(id uint, ctx context.Context) (Domain, e
 	return building, nil
 }
 
+func (usecase *BuildingUseCase) GetByComplexID(complexid uint, ctx context.Context) (Domain, error){
+	building, err := usecase.repo.GetByComplexID(complexid, ctx)
+	if err != nil {
+		return Domain{}, errors.New("tidak ada complex dengan ID tersebut")
+	}
+	if complexid == 0 {
+		return Domain{}, errors.New("complexID harus diisi")
+	}
+	return building, nil
+}
+
 func (usecase *BuildingUseCase) Edit(id uint, ctx context.Context, domain Domain) (Domain, error){
 	domain.Id = (id)
 	building, err := usecase.repo.Edit(id, ctx , domain)
