@@ -35,7 +35,7 @@ func (Repo *unitRepo) Add(ctx context.Context, domain units.Domain) (units.Domai
 
 func (Repo *unitRepo) GetAll(ctx context.Context) ([]units.Domain, error) {
 	var unit []Unit
-	err := Repo.DB.Preload("Building").Find(&unit)
+	err := Repo.DB.Find(&unit)
 	if err.Error != nil {
 		return []units.Domain{}, err.Error
 	}

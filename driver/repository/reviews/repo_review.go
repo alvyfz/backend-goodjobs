@@ -42,7 +42,7 @@ func (Repo *reviewRepo) GetAll(ctx context.Context) ([]reviews.Domain, error){
 
 func (Repo *reviewRepo) GetByBuildingID(buildingid uint, ctx context.Context ) ([]reviews.Domain, error){
 	var review []Review
-	err := Repo.DB.Preload("Building").Find(&review, "building_id=?", buildingid)
+	err := Repo.DB.Preload("User").Find(&review, "building_id=?", buildingid)
 	if err.Error != nil {
 		return []reviews.Domain{}, err.Error
 	}

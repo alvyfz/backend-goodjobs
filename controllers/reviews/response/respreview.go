@@ -2,7 +2,7 @@ package response
 
 import (
 	"goodjobs/business/reviews"
-	respBuilding "goodjobs/controllers/buildings/response"
+	// respBuilding "goodjobs/controllers/buildings/response"
 	respUser "goodjobs/controllers/users/response"
 	"time"
 
@@ -14,7 +14,7 @@ type ReviewResponse struct {
 	User_ID     uint `json:"user_id"`
 	User        respUser.UserResponse	`json:"user"`
 	Building_ID uint	`json:"building_id"`
-	Building	respBuilding.BuildingResponse	`json:"building"`
+	// Building	respBuilding.BuildingResponse	`json:"building"`
 	Rating      int				`json:"rating"`
 	Description string				`json:"description"`
 	CreatedAt   time.Time			
@@ -28,7 +28,7 @@ func FromDomainReview(domain reviews.Domain) ReviewResponse {
 		User_ID		:domain.User_ID,
 		User		:respUser.FromDomain(domain.User),
 		Building_ID	:domain.Building_ID,
-		Building	:respBuilding.FromDomainBuilding(domain.Building),
+		// Building	:respBuilding.FromDomainBuilding(domain.Building),
 		Rating		:domain.Rating,
 		Description: domain.Description,
 		CreatedAt 	:domain.CreatedAt,
