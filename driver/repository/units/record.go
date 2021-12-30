@@ -10,7 +10,7 @@ import (
 
 type Unit struct {
 	Id          uint				`gorm:"primaryKey"`
-	Name        string				`gorm:"unique"`
+	Name        string				
 	Building_ID uint
 	Building    buildings.Building	`gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Description string
