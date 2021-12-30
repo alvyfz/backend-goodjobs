@@ -22,6 +22,18 @@ func (usecase *UnitUseCase) Add(ctx context.Context, domain Domain) (Domain, err
 	if domain.Name == "" {
 		return Domain{}, errors.New("nama harus di isi")
 	}
+	if domain.Description == "" {
+		return Domain{}, errors.New("deskripsi harus di isi")
+	}
+	if domain.Img == "" {
+		return Domain{}, errors.New("img harus di isi")
+	}
+	if domain.Price == 0 {
+		return Domain{}, errors.New("harga harus di isi")
+	}
+	if domain.UnitSize == 0 {
+		return Domain{}, errors.New("size harus di isi")
+	}
 	book, err := usecase.repo.Add(ctx, domain)
 	if err != nil {
 		return Domain{}, err

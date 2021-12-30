@@ -22,7 +22,7 @@ func (usecase *RoleUseCase) Add(ctx context.Context, domain Domain) (Domain, err
 	if domain.Name == "" {
 		return Domain{}, errors.New("nama role harus di isi")
 	}
-
+	
 	role, err := usecase.repo.Add(ctx, domain)
 	if err != nil {
 		return Domain{}, err
