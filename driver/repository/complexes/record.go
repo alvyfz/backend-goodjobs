@@ -9,7 +9,7 @@ import (
 
 type Complex struct {
 	Id        uint   `gorm:"primaryKey"`
-	Name      string `gorm:"unique"`
+	Name      string
 	Address	  string
 	Img       string
 	CreatedAt time.Time

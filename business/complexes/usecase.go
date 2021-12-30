@@ -22,7 +22,6 @@ func (usecase *ComplexUseCase) Add(ctx context.Context, domain Domain) (Domain, 
 	if domain.Name == "" {
 		return Domain{}, errors.New("nama complex harus di isi")
 	}
-
 	complex, err := usecase.repo.Add(ctx, domain)
 	if err != nil {
 		return Domain{}, err

@@ -12,7 +12,7 @@ type Building struct {
 	Id          uint			 `gorm:"primaryKey"`
 	Complex_ID  uint
 	Complex     complexes.Complex `gorm:"constraint:OnUpdate:CASCADE,OnDelete:RESTRICT;"`
-	Name        string			`gorm:"unique"`
+	Name        string			
 	Description string			
 	Size        float64
 	Floor       int
