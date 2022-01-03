@@ -55,6 +55,7 @@ func TestRegister(t *testing.T) {
 		user, err := userService.RegisterUser(context.Background(), users.Domain{
 			Id 			:1,
 			Email		:"",
+			Phone		:"198198198",
 			Password	:"9875465",
 		})
 		assert.Error(t, err)
@@ -65,13 +66,14 @@ func TestRegister(t *testing.T) {
 		userRepository.On("RegisterUser", mock.Anything, mock.Anything).Return(userDomain, errors.New("password belum di isi")).Once() 
 		user, err := userService.RegisterUser(context.Background(), users.Domain{
 			Id 			:1,
-			Email		:"siteslagixixi@gmail.com",
+			Email		:"sites@gmail.com",
+			Phone		:"198198198",
 			Password	:"",
-			
 		})
 		assert.Error(t, err)
 		assert.NotNil(t, user)
 	})
+
 }
 
 
