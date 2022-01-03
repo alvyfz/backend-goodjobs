@@ -35,7 +35,7 @@ func (usecase *BuildingUseCase) Add(ctx context.Context, domain Domain) (Domain,
 		return Domain{}, errors.New("jam kerja harus di isi")
 	}
 	if domain.Img == "" {
-		return Domain{}, errors.New("img harus di isi")
+		return Domain{}, errors.New("image harus di isi")
 	}
 	if domain.PriceStart == 0 {
 		return Domain{}, errors.New("harga harus di isi")
