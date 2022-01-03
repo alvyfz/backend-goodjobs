@@ -25,6 +25,15 @@ func (usecase *ReviewUseCase) Add(ctx context.Context, domain Domain) (Domain, e
 	if domain.Rating == 0 {
 		return Domain{}, errors.New("rating harus di isi")
 	}
+	if domain.Description == "" {
+		return Domain{}, errors.New("deskripsi harus di isi")
+	}
+	if domain.User_ID == 0 {
+		return Domain{}, errors.New("userid harus di isi")
+	}
+	if domain.Building_ID == 0 {
+		return Domain{}, errors.New("buildingid harus di isi")
+	}
 	review, err := usecase.repo.Add(ctx, domain)
 	if err != nil {
 		return Domain{}, err

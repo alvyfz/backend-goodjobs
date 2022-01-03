@@ -22,6 +22,39 @@ func (usecase *BuildingUseCase) Add(ctx context.Context, domain Domain) (Domain,
 	if domain.Name == "" {
 		return Domain{}, errors.New("nama harus di isi")
 	}
+	if domain.Address == "" {
+		return Domain{}, errors.New("alamat harus di isi")
+	}
+	if domain.Description == "" {
+		return Domain{}, errors.New("deskripsi harus di isi")
+	}
+	if domain.Complex_ID == 0 {
+		return Domain{}, errors.New("complex_id harus di isi")
+	}
+	if domain.OfficeHours == "" {
+		return Domain{}, errors.New("jam kerja harus di isi")
+	}
+	if domain.Img == "" {
+		return Domain{}, errors.New("img harus di isi")
+	}
+	if domain.PriceStart == 0 {
+		return Domain{}, errors.New("harga harus di isi")
+	}
+	if domain.Toilet == 0 {
+		return Domain{}, errors.New("toilet harus di isi")
+	}
+	if domain.Floor == 0 {
+		return Domain{}, errors.New("lantai harus di isi")
+	}
+	if domain.Latitude == 0 {
+		return Domain{}, errors.New("latitude harus di isi")
+	}
+	if domain.Longitude == 0 {
+		return Domain{}, errors.New("longitude harus di isi")
+	}
+	if domain.Size == 0 {
+		return Domain{}, errors.New("size complex harus di isi")
+	}
 	building, err := usecase.repo.Add(ctx, domain)
 	if err != nil {
 		return Domain{}, err
