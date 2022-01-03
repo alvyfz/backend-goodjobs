@@ -56,6 +56,30 @@ func TestAdd(t *testing.T) {
 		assert.Error(t, err)
 		assert.NotNil(t, complex)
 	})
+	t.Run("Test Case 3 | No Address", func(t *testing.T) {
+		
+		complexRepository.On("Add", mock.Anything, mock.Anything).Return(complexDomain, errors.New("address harus di isi")).Once() 
+		complex, err := complexService.Add(context.Background(), complexes.Domain{
+			Id:      1,
+			Name: "AWE",
+			Address: "",
+			Img: "foto.com",
+		})
+		assert.Error(t, err)
+		assert.NotNil(t, complex)
+	})
+	t.Run("Test Case 4 | No Image", func(t *testing.T) {
+		
+		complexRepository.On("Add", mock.Anything, mock.Anything).Return(complexDomain, errors.New("image harus di isi")).Once() 
+		complex, err := complexService.Add(context.Background(), complexes.Domain{
+			Id:      1,
+			Name: "AWE",
+			Address: "digidaw",
+			Img: "",
+		})
+		assert.Error(t, err)
+		assert.NotNil(t, complex)
+	})
 	
 }
 
@@ -80,3 +104,62 @@ func TestGetAll(t *testing.T) {
     })
 }
 
+func TestGetById(t *testing.T) {
+	t.Run("Test case 1 | Success GetByID", func(t *testing.T) {
+		setup()
+		complexRepository.On("GetByID", mock.AnythingOfType("uint") ,mock.Anything ).Return(complexDomain, nil).Once()
+		complex, err := complexService.GetByID(complexDomain.Id, context.Background())
+
+		assert.NoError(t, err)
+		assert.NotNil(t, complex)
+	})
+
+	t.Run("Test case 2 | Error GetByID(complex Id = 0)", func(t *testing.T) {
+		setup()
+		complexDomain.Id = 0
+		complexRepository.On("GetByID", mock.AnythingOfType("uint") ,mock.Anything ).Return(complexDomain, nil).Once()
+		data, err := complexService.GetByID(complexDomain.Id, context.Background())
+
+		assert.Error(t, err)
+		assert.NotNil(t, data)
+		assert.Equal(t, data, complexes.Domain{})
+	})
+}
+
+func TestEdit(t *testing.T) {
+	t.Run("Test case 1 | Success Edit", func(t *testing.T) {
+		setup()
+		complexRepository.On("Edit", mock.Anything, mock.Anything, mock.AnythingOfType("uint")).Return(complexDomain, nil).Once()
+		data, err := complexService.Edit(complexDomain.Id, context.Background(), complexDomain )
+
+		assert.NotNil(t, data)
+		assert.NoError(t, err)
+	})
+
+	t.Run("Test case 2 | Failed Edit", func(t *testing.T) {
+		setup()
+		complexRepository.On("Edit", mock.Anything, mock.Anything, mock.AnythingOfType("uint")).Return(complexDomain, errors.New("tidak ada complex dengan ID tersebut")).Once()
+		data, err := complexService.Edit(complexDomain.Id, context.Background(), complexDomain)
+
+		assert.Equal(t, data, complexes.Domain{})
+		assert.Error(t, err)
+	})
+}
+
+func TestDelete(t *testing.T) {
+	t.Run("Test case 1 | Success Delete", func(t *testing.T) {
+		setup()
+		complexRepository.On("Delete", mock.Anything, mock.Anything).Return(nil).Once()
+		err := complexService.Delete(complexDomain.Id, context.Background() )
+
+		assert.Nil(t, err)
+	})
+
+	t.Run("Test case 2 | Failed Delete", func(t *testing.T) {
+		setup()
+		complexRepository.On("Delete", mock.Anything, mock.Anything).Return(errors.New("tidak ada Complex dengan ID tersebut")).Once()
+		err := complexService.Delete(complexDomain.Id, context.Background())
+		assert.Equal(t, err, errors.New("tidak ada Complex dengan ID tersebut"))
+		assert.Error(t, err)
+	})
+}
