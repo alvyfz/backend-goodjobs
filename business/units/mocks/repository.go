@@ -3,7 +3,6 @@ package mocks
 import (
 	"context"
 	"goodjobs/business/units"
-	"goodjobs/business/users"
 
 	"github.com/stretchr/testify/mock"
 )
@@ -55,18 +54,52 @@ func (_m *Repository) GetAll(ctx context.Context) ([]units.Domain, error) {
 	return r0, r1
 }
 
-func (_m *Repository) Edit(id uint, ctx context.Context, domain users.Domain) (users.Domain, error) {
+func (_m *Repository) GetByID(id uint, ctx context.Context) (units.Domain, error){
+	ret := _m.Called(id, ctx)
+	var r0 units.Domain
+	if rf, ok := ret.Get(0).(func(uint, context.Context)units.Domain); ok{
+		r0 = rf(id, ctx)
+	} else {
+		r0 = ret.Get(0).(units.Domain)
+	}
+	var r1 error
+	if rf, ok := ret.Get(1).(func(uint, context.Context)error); ok{
+		r1 = rf(id, ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+func (_m *Repository) GetByBuildingID(buildingid uint, ctx context.Context) ([]units.Domain, error){
+	ret := _m.Called(buildingid, ctx)
+	var r0 []units.Domain
+	if rf, ok := ret.Get(0).(func(uint, context.Context)[]units.Domain); ok{
+		r0 = rf(buildingid, ctx)
+	} else {
+		r0 = ret.Get(0).([]units.Domain)
+	}
+	var r1 error
+	if rf, ok := ret.Get(1).(func(uint, context.Context)error); ok{
+		r1 = rf(buildingid, ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
+func (_m *Repository) Edit(id uint, ctx context.Context, domain units.Domain) (units.Domain, error) {
 	ret := _m.Called(ctx, domain, id)
 
-	var r0 users.Domain
-	if rf, ok := ret.Get(0).(func(uint, context.Context, users.Domain) users.Domain); ok {
+	var r0 units.Domain
+	if rf, ok := ret.Get(0).(func(uint, context.Context, units.Domain) units.Domain); ok {
 		r0 = rf(id, ctx, domain)
 	} else {
-		r0 = ret.Get(0).(users.Domain)
+		r0 = ret.Get(0).(units.Domain)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(uint, context.Context, users.Domain) error); ok {
+	if rf, ok := ret.Get(1).(func(uint, context.Context, units.Domain) error); ok {
 		r1 = rf(id, ctx, domain)
 	} else {
 		r1 = ret.Error(1)
