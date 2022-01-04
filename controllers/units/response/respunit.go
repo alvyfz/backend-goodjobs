@@ -2,7 +2,7 @@ package response
 
 import (
 	"goodjobs/business/units"
-	// respBuil "goodjobs/controllers/buildings/response"
+	respBuil "goodjobs/controllers/buildings/response"
 	"time"
 
 	"gorm.io/gorm"
@@ -12,7 +12,7 @@ type UnitResponse struct {
 	Id          uint   			`json:"id"`
 	Name        string 			`gorm:"unique" json:"name"`
 	Building_ID uint			`json:"building_id"`
-	// Building	respBuil.BuildingResponse	`json:"building"`
+	Building	respBuil.BuildingResponse	`json:"building"`
 	Description string			`json:"description"`
 	Price       uint			`json:"price"`
 	UnitSize    float64			`json:"unitsize"`
@@ -27,7 +27,7 @@ func FromDomainUnit(domain units.Domain) UnitResponse {
 		Id					:domain.Id,
 		Name				:domain.Name,
 		Building_ID			:domain.Building_ID,
-		// Building			:respBuil.FromDomainBuilding(domain.Building),
+		Building			:respBuil.FromDomainBuilding(domain.Building),
 		Description			:domain.Description ,
 		Price				:domain.Price,
 		UnitSize			:domain.UnitSize,
