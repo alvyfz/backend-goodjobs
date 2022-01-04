@@ -9,7 +9,7 @@ import (
 )
 
 type BuildingResponse struct {
-	Id          uint 	`gorm:"primaryKey"`
+	Id          uint 	`gorm:"primaryKey" json:"id"`
 	Complex_ID  uint	`json:"complex_id"`
 	Complex     respComp.ComplexResponse	`json:"complex"`
 	Name        string  `json:"name"`
