@@ -5,10 +5,10 @@ import (
 )
 
 type ReviewRequest struct {
-	User_ID     uint
-	Building_ID uint
-	Rating      int
-	Description string
+	User_ID     uint	`json:"user_id"`
+	Building_ID uint	`json:"building_id"`
+	Rating      int		`json:"rating"`
+	Description string	`json:"description"`
 }
 
 func (Review *ReviewRequest) ToDomain() *reviews.Domain{

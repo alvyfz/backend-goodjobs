@@ -10,16 +10,16 @@ import (
 )
 
 type ReviewResponse struct {
-	Id          uint `gorm:"primaryKey"`
-	User_ID     uint `json:"user_id"`
+	Id          uint 					`gorm:"primaryKey" json:"id"`
+	User_ID     uint 					`json:"user_id"`
 	User        respUser.UserResponse	`json:"user"`
-	Building_ID uint	`json:"building_id"`
+	Building_ID uint					`json:"building_id"`
 	// Building	respBuilding.BuildingResponse	`json:"building"`
-	Rating      int				`json:"rating"`
-	Description string				`json:"description"`
-	CreatedAt   time.Time			
-	UpdatedAt   time.Time
-	DeletedAt   gorm.DeletedAt `gorm:"index"`
+	Rating      int						`json:"rating"`
+	Description string					`json:"description"`
+	CreatedAt time.Time      			`json:"createdAt"`
+	UpdatedAt time.Time      			`json:"updatedAt"`
+	DeletedAt gorm.DeletedAt 			`json:"deletedAt"`
 }
 
 func FromDomainReview(domain reviews.Domain) ReviewResponse {
