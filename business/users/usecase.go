@@ -6,6 +6,8 @@ import (
 	"goodjobs/app/middlewares"
 	"log"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserUseCase struct {
@@ -37,6 +39,11 @@ func (usecase *UserUseCase) RegisterUser(ctx context.Context, domain Domain) (Do
 	if domain.Password == "" {
 		return Domain{}, errors.New("password belum di isi")
 	}
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(domain.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return Domain{}, err
+	}
+	domain.Password = string(hashedPassword)
 
 	user, err := usecase.repo.RegisterUser(ctx, &domain)
 	if err != nil {
@@ -54,10 +61,16 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 		return Domain{},"", errors.New("password belum di isi")
 	
 	}
-	user, err := usecase.repo.GetEmail(ctx, email, password)
+	user, err := usecase.repo.GetEmail(ctx, email)
 	if err != nil {
 		return Domain{},"", err
 	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return Domain{},"", err
+	}
+
 	token, errToken := usecase.JWTAuth.GenerateTokenJWT(user.Id, user.Email, user.Name, user.Phone , user.Roles_ID)
 	if errToken != nil {
 		log.Println(errToken)
@@ -77,6 +90,10 @@ func (usecase *UserUseCase) CheckingUser(email string, password string, ctx cont
 	
 	}
 	user, err := usecase.repo.CheckingUser(email, password, ctx)
+	if err != nil {
+		return Domain{}, err
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return Domain{}, err
 	}

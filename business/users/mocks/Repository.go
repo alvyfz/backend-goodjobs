@@ -141,7 +141,7 @@ func (_m *Repository) UpdatePasswordByID (id uint, ctx context.Context, domain u
 	return r0, r1
 }
 
-func (_m *Repository) GetEmail(ctx context.Context, email string, password string) (users.Domain, error) {
+func (_m *Repository) GetEmail(ctx context.Context, email string) (users.Domain, error) {
 	ret := _m.Called(ctx, email)
 
 	var r0 users.Domain

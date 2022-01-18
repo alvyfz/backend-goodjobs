@@ -49,12 +49,12 @@ func init() {
 }
 
 func DBMigrate(DB *gorm.DB) {
-	DB.AutoMigrate(&userRepo.User{})
-	DB.AutoMigrate(&roleRepo.Role{})
-	DB.AutoMigrate(&complexRepo.Complex{})
-	DB.AutoMigrate(&buildingRepo.Building{})
-	DB.AutoMigrate(&unitRepo.Unit{})
-	DB.AutoMigrate(&reviewRepo.Review{})
+	// DB.AutoMigrate(&userRepo.User{})
+	// DB.AutoMigrate(&roleRepo.Role{})
+	// DB.AutoMigrate(&complexRepo.Complex{})
+	// DB.AutoMigrate(&buildingRepo.Building{})
+	// DB.AutoMigrate(&unitRepo.Unit{})
+	// DB.AutoMigrate(&reviewRepo.Review{})
 
 }
 
