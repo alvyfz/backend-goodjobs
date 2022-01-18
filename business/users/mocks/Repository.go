@@ -121,6 +121,26 @@ func (_m *Repository) UpdateUserByID (id uint, ctx context.Context, domain users
 	return r0, r1
 }
 
+func (_m *Repository) UpdatePasswordByID (id uint, ctx context.Context, domain users.Domain) (users.Domain, error) {
+	ret := _m.Called(ctx, domain, id)
+
+	var r0 users.Domain
+	if rf, ok := ret.Get(0).(func(uint, context.Context, users.Domain) users.Domain); ok {
+		r0 = rf(id, ctx, domain)
+	} else {
+		r0 = ret.Get(0).(users.Domain)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(uint, context.Context, users.Domain) error); ok {
+		r1 = rf(id, ctx, domain)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 func (_m *Repository) GetEmail(ctx context.Context, email string, password string) (users.Domain, error) {
 	ret := _m.Called(ctx, email)
 

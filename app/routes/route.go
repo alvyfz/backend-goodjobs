@@ -23,16 +23,12 @@ type RouteControllerList struct {
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
-
-	// user := e.Group("user", middleware.JWTWithConfig(ctrl.JWTMiddleware))
-
-	// user.PUT("/:id", ctrl.UserController.UpdateUserByID)
 	jwt := middleware.JWTWithConfig(ctrl.JWTMiddleware)
 	
 	e.DELETE("/user/:id", ctrl.UserController.DeleteUserByID, jwt)
 	e.POST("register", ctrl.UserController.RegisterUser)
 	e.POST("login", ctrl.UserController.LoginUser)
-	// e.PUT("user/password", ctrl.UserController.ChangePassword)
+	e.PUT("user/password/:id", ctrl.UserController.UpdatePasswordByID, jwt)
 	e.POST("user/checking", ctrl.UserController.CheckingUser)
 	e.GET("user/:id", ctrl.UserController.GetByID)
 	e.POST("user", ctrl.UserController.GetByEmail)

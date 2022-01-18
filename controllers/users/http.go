@@ -81,24 +81,6 @@ func (userController *UserController) CheckingUser (c echo.Context) error {
 	return controllers.NewSuccesResponse(c, response.FromUserRegister(data))
 }
 
-// func (userController *UserController) ChangePassword (c echo.Context) error {
-// 	var login users.Domain
-// 	var err error
-// 	ctx := c.Request().Context()
-
-// 	req := request.ChangePasswordRequest{}
-// 	err = c.Bind(&req)
-// 	if err != nil {
-// 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
-// 	}
-
-// 	login, err = userController.userUseCase.ChangePassword(req.Email, req.Password, req.NewPassword , ctx)
-
-// 	if err != nil {
-// 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
-// 	}
-// 	return controllers.NewSuccesResponse(c, response.FromUserRegister(login))
-// }
 
 func (userController *UserController) GetByEmail (c echo.Context) error {
 	ctx := c.Request().Context()
@@ -151,6 +133,27 @@ func (userController *UserController) UpdateUserByID (c echo.Context) error{
 	}
 	ctx := c.Request().Context()
 	data, err := userController.userUseCase.UpdateUserByID(convID, ctx, *req.ToDomain())
+
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromUserRegister(data))
+
+}
+
+func (userController *UserController) UpdatePasswordByID (c echo.Context) error{
+	id := c.Param("id")
+	convID, err := helpers.StringToUint(id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	req := request.UpdatePasswordReq{}
+	err = c.Bind(&req)
+	if err != nil {
+		return err
+	}
+	ctx := c.Request().Context()
+	data, err := userController.userUseCase.UpdatePasswordByID(convID, ctx, *req.ToDomain())
 
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)

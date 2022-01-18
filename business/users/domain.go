@@ -30,6 +30,7 @@ type UserUsecaseInterface interface {
 	GetAllUsers(ctx context.Context) ([]Domain, error)
 	RegisterUser(ctx context.Context, domain Domain) (Domain, error)
 	UpdateUserByID(id uint, ctx context.Context, domain Domain) (Domain, error)
+	UpdatePasswordByID(id uint, ctx context.Context, domain Domain) (Domain, error)
 	DeleteUserByID(id uint, ctx context.Context)error
 }
 
@@ -41,6 +42,7 @@ type UserRepoInterface interface {
 	RegisterUser(ctx context.Context, domain *Domain) (Domain, error)
 	GetEmail(ctx context.Context, email string, password string) (Domain, error)
 	UpdateUserByID(id uint, ctx context.Context, domain Domain) (Domain, error)
+	UpdatePasswordByID(id uint, ctx context.Context, domain Domain) (Domain, error)
 	DeleteUserByID(id uint, ctx context.Context)error
 }
 
