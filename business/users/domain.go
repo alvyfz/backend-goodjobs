@@ -17,7 +17,6 @@ type Domain struct {
 	Name 		string
 	Phone		string
 	Password  	string
-	NewPassword string
 	Roles_ID	uint
 	Roles 		roles.Domain
 	Token     	string
@@ -25,7 +24,7 @@ type Domain struct {
 
 type UserUsecaseInterface interface {
 	LoginUser(email string, password string, ctx context.Context) (Domain, string, error)
-	ChangePassword(email string, password string, newpassword string, ctx context.Context) (Domain, error)
+	CheckingUser(email string, password string, ctx context.Context) (Domain, error)
 	GetByID(id uint, ctx context.Context) (Domain, error)
 	GetByEmail(email string, ctx context.Context) (Domain, error)
 	GetAllUsers(ctx context.Context) ([]Domain, error)
@@ -36,7 +35,7 @@ type UserUsecaseInterface interface {
 
 type UserRepoInterface interface {
 	GetByID(id uint, ctx context.Context) (Domain, error)
-	ChangePassword(email string, password string, newpassword string, ctx context.Context) (Domain, error)
+	CheckingUser(email string, password string, ctx context.Context) (Domain, error)
 	GetByEmail(email string, ctx context.Context) (Domain, error)
 	GetAllUsers(ctx context.Context) ([]Domain, error)
 	RegisterUser(ctx context.Context, domain *Domain) (Domain, error)

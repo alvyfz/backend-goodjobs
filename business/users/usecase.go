@@ -68,22 +68,37 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 	return user, token, nil
 }
 
-func (usecase *UserUseCase) ChangePassword(email string, password string, newpassword string, ctx context.Context) (Domain, error){
+func (usecase *UserUseCase) CheckingUser(email string, password string, ctx context.Context) (Domain, error){
 	if email == "" {
 		return Domain{}, errors.New("email belum di isi")
 	}
 	if password == "" {
 		return Domain{}, errors.New("password belum di isi")
+	
 	}
-	if newpassword == "" {
-		return Domain{}, errors.New("password baru belum di isi")
-	}
-	user, err := usecase.repo.ChangePassword(email, password, newpassword, ctx)
+	user, err := usecase.repo.CheckingUser(email, password, ctx)
 	if err != nil {
 		return Domain{}, err
 	}
-	return user, nil
+	return user,  nil
 }
+
+// func (usecase *UserUseCase) ChangePassword(email string, password string, newpassword string, ctx context.Context) (Domain, error){
+// 	if email == "" {
+// 		return Domain{}, errors.New("email belum di isi")
+// 	}
+// 	if password == "" {
+// 		return Domain{}, errors.New("password belum di isi")
+// 	}
+// 	if newpassword == "" {
+// 		return Domain{}, errors.New("password baru belum di isi")
+// 	}
+// 	user, err := usecase.repo.ChangePassword(email, password, newpassword, ctx)
+// 	if err != nil {
+// 		return Domain{}, err
+// 	}
+// 	return user, nil
+// }
 
 func (usecase *UserUseCase) GetByEmail(email string, ctx context.Context) (Domain, error){
 	if email == "" {
