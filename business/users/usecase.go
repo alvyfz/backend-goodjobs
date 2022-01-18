@@ -6,6 +6,8 @@ import (
 	"goodjobs/app/middlewares"
 	"log"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserUseCase struct {
@@ -37,6 +39,11 @@ func (usecase *UserUseCase) RegisterUser(ctx context.Context, domain Domain) (Do
 	if domain.Password == "" {
 		return Domain{}, errors.New("password belum di isi")
 	}
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(domain.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return Domain{}, err
+	}
+	domain.Password = string(hashedPassword)
 
 	user, err := usecase.repo.RegisterUser(ctx, &domain)
 	if err != nil {
@@ -54,10 +61,16 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 		return Domain{},"", errors.New("password belum di isi")
 	
 	}
-	user, err := usecase.repo.GetEmail(ctx, email, password)
+	user, err := usecase.repo.GetEmail(ctx, email)
 	if err != nil {
 		return Domain{},"", err
 	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return Domain{},"", err
+	}
+
 	token, errToken := usecase.JWTAuth.GenerateTokenJWT(user.Id, user.Email, user.Name, user.Phone , user.Roles_ID)
 	if errToken != nil {
 		log.Println(errToken)
@@ -68,21 +81,23 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 	return user, token, nil
 }
 
-func (usecase *UserUseCase) ChangePassword(email string, password string, newpassword string, ctx context.Context) (Domain, error){
+func (usecase *UserUseCase) CheckingUser(email string, password string, ctx context.Context) (Domain, error){
 	if email == "" {
 		return Domain{}, errors.New("email belum di isi")
 	}
 	if password == "" {
 		return Domain{}, errors.New("password belum di isi")
+	
 	}
-	if newpassword == "" {
-		return Domain{}, errors.New("password baru belum di isi")
-	}
-	user, err := usecase.repo.ChangePassword(email, password, newpassword, ctx)
+	user, err := usecase.repo.CheckingUser(email, password, ctx)
 	if err != nil {
 		return Domain{}, err
 	}
-	return user, nil
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return Domain{}, err
+	}
+	return user,  nil
 }
 
 func (usecase *UserUseCase) GetByEmail(email string, ctx context.Context) (Domain, error){
@@ -118,6 +133,15 @@ func (usecase *UserUseCase) GetAllUsers(ctx context.Context) ([]Domain, error){
 func (usecase *UserUseCase) UpdateUserByID(id uint, ctx context.Context, domain Domain) (Domain, error){
 	domain.Id = (id)
 	user, err := usecase.repo.UpdateUserByID(id, ctx , domain)
+	if err != nil {
+		return Domain{}, errors.New("tidak ada user dengan ID tersebut")
+	}
+	return user, nil
+}
+
+func (usecase *UserUseCase) UpdatePasswordByID(id uint, ctx context.Context, domain Domain) (Domain, error){
+	domain.Id = (id)
+	user, err := usecase.repo.UpdatePasswordByID(id, ctx , domain)
 	if err != nil {
 		return Domain{}, errors.New("tidak ada user dengan ID tersebut")
 	}

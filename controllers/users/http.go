@@ -62,24 +62,25 @@ func (userController *UserController) LoginUser (c echo.Context) error {
 	return controllers.NewSuccesResponse(c, response.UserLogin(login, token))
 }
 
-func (userController *UserController) ChangePassword (c echo.Context) error {
-	var login users.Domain
+func (userController *UserController) CheckingUser (c echo.Context) error {
+	var data users.Domain
 	var err error
 	ctx := c.Request().Context()
 
-	req := request.ChangePasswordRequest{}
+	req := request.UserLoginRequest{}
 	err = c.Bind(&req)
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
 
-	login, err = userController.userUseCase.ChangePassword(req.Email, req.Password, req.NewPassword , ctx)
+	data, err = userController.userUseCase.CheckingUser(req.Email, req.Password, ctx)
 
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
 	}
-	return controllers.NewSuccesResponse(c, response.FromUserRegister(login))
+	return controllers.NewSuccesResponse(c, response.FromUserRegister(data))
 }
+
 
 func (userController *UserController) GetByEmail (c echo.Context) error {
 	ctx := c.Request().Context()
@@ -132,6 +133,27 @@ func (userController *UserController) UpdateUserByID (c echo.Context) error{
 	}
 	ctx := c.Request().Context()
 	data, err := userController.userUseCase.UpdateUserByID(convID, ctx, *req.ToDomain())
+
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromUserRegister(data))
+
+}
+
+func (userController *UserController) UpdatePasswordByID (c echo.Context) error{
+	id := c.Param("id")
+	convID, err := helpers.StringToUint(id)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	req := request.UpdatePasswordReq{}
+	err = c.Bind(&req)
+	if err != nil {
+		return err
+	}
+	ctx := c.Request().Context()
+	data, err := userController.userUseCase.UpdatePasswordByID(convID, ctx, *req.ToDomain())
 
 	if err != nil {
 		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
