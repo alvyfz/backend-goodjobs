@@ -39,6 +39,7 @@ func (Repo *complexRepo) GetAll(ctx context.Context) ([]complexes.Domain, error)
 	return GetAll(complex), nil
 }
 
+
 func (Repo *complexRepo) GetByID(id uint, ctx context.Context ) (complexes.Domain, error){
 	var complex Complex
 	err := Repo.DB.Find(&complex, "id=?", id)
@@ -47,6 +48,8 @@ func (Repo *complexRepo) GetByID(id uint, ctx context.Context ) (complexes.Domai
 	}
 	return complex.ToDomain(), nil
 }
+
+
 
 func (Repo *complexRepo) Edit(id uint, ctx context.Context, domain complexes.Domain) (complexes.Domain, error){
 	complex := FromDomain(domain)

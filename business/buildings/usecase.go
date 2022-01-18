@@ -71,6 +71,23 @@ func (usecase *BuildingUseCase) GetAll(ctx context.Context) ([]Domain, error) {
 	return building, nil
 }
 
+
+func (usecase *BuildingUseCase) GetOrderByPriceAsc(ctx context.Context) ([]Domain, error) {
+	building, err := usecase.repo.GetOrderByPriceAsc(ctx)
+	if err != nil {
+		return []Domain{}, errors.New("tidak ada building")
+	}
+	return building, nil
+}
+
+func (usecase *BuildingUseCase) GetOrderByPriceDesc(ctx context.Context) ([]Domain, error) {
+	building, err := usecase.repo.GetOrderByPriceDesc(ctx)
+	if err != nil {
+		return []Domain{}, errors.New("tidak ada building")
+	}
+	return building, nil
+}
+
 func (usecase *BuildingUseCase) GetByID(id uint, ctx context.Context) (Domain, error){
 	building, err := usecase.repo.GetByID(id, ctx)
 	if err != nil {

@@ -31,6 +31,8 @@ type Domain struct {
 type BuildingUsecaseInterface interface{
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	GetOrderByPriceAsc(ctx context.Context) ([]Domain, error)
+	GetOrderByPriceDesc(ctx context.Context) ([]Domain, error)
 	GetByID(id uint, ctx context.Context) (Domain, error)
 	GetByComplexID(complexid uint, ctx context.Context) ([]Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)
@@ -40,6 +42,8 @@ type BuildingUsecaseInterface interface{
 type BuildingRepoInterface interface {
 	Add(ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
+	GetOrderByPriceAsc(ctx context.Context) ([]Domain, error)
+	GetOrderByPriceDesc(ctx context.Context) ([]Domain, error)
 	GetByID(id uint, ctx context.Context) (Domain, error)
 	GetByComplexID(complexid uint, ctx context.Context) ([]Domain, error)
 	Edit(id uint, ctx context.Context, domain Domain) (Domain, error)

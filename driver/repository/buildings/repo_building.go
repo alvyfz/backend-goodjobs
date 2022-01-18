@@ -49,6 +49,24 @@ func (Repo *buildingRepo) GetAll(ctx context.Context) ([]buildings.Domain, error
 
 }
 
+func (Repo *buildingRepo) GetOrderByPriceAsc(ctx context.Context) ([]buildings.Domain, error) {
+	var building []Building
+	err := Repo.DB.Order("price_start asc").Preload("Complex").Find(&building)
+	if err.Error != nil {
+		return []buildings.Domain{}, err.Error
+	}
+	return ToDomainArray(building), nil
+}
+
+func (Repo *buildingRepo) GetOrderByPriceDesc(ctx context.Context) ([]buildings.Domain, error) {
+	var building []Building
+	err := Repo.DB.Order("price_start desc").Preload("Complex").Find(&building)
+	if err.Error != nil {
+		return []buildings.Domain{}, err.Error
+	}
+	return ToDomainArray(building), nil
+}
+
 func (Repo *buildingRepo) GetByID(id uint, ctx context.Context ) (buildings.Domain, error){
 	var building Building
 	err := Repo.DB.Preload("Complex").Find(&building, "id=?", id)
