@@ -32,6 +32,7 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.DELETE("/user/:id", ctrl.UserController.DeleteUserByID, jwt)
 	e.POST("register", ctrl.UserController.RegisterUser)
 	e.POST("login", ctrl.UserController.LoginUser)
+	e.PUT("user/password", ctrl.UserController.ChangePassword)
 	e.GET("user/:id", ctrl.UserController.GetByID)
 	e.POST("user", ctrl.UserController.GetByEmail)
 	e.GET("users", ctrl.UserController.GetAllUsers)
@@ -49,6 +50,8 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 
 	e.POST("building", ctrl.BuildingController.Add)
 	e.GET("buildings", ctrl.BuildingController.GetAll)
+	e.GET("buildings/asc", ctrl.BuildingController.GetOrderByPriceAsc)
+	e.GET("buildings/desc", ctrl.BuildingController.GetOrderByPriceDesc)
 	e.GET("building/:id", ctrl.BuildingController.GetByID)
 	e.GET("building/complex/:complexid", ctrl.BuildingController.GetByComplexID)
 	e.PUT("building/:id", ctrl.BuildingController.Edit)

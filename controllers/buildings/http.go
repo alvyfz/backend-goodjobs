@@ -50,6 +50,26 @@ func (buildingController *BuildingController) GetAll(c echo.Context) error {
 
 }
 
+func (buildingController *BuildingController) GetOrderByPriceAsc(c echo.Context) error {
+	req := c.Request().Context()
+	Building, err := buildingController.buildingUseCase.GetOrderByPriceAsc(req)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromDomainBuildingArray(Building))
+
+}
+
+func (buildingController *BuildingController) GetOrderByPriceDesc(c echo.Context) error {
+	req := c.Request().Context()
+	Building, err := buildingController.buildingUseCase.GetOrderByPriceDesc(req)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromDomainBuildingArray(Building))
+
+}
+
 func (buildingController *BuildingController) GetByID(c echo.Context) error{
 	req := c.Request().Context()
 	id := c.Param("id")

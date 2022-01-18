@@ -62,6 +62,25 @@ func (userController *UserController) LoginUser (c echo.Context) error {
 	return controllers.NewSuccesResponse(c, response.UserLogin(login, token))
 }
 
+func (userController *UserController) ChangePassword (c echo.Context) error {
+	var login users.Domain
+	var err error
+	ctx := c.Request().Context()
+
+	req := request.ChangePasswordRequest{}
+	err = c.Bind(&req)
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	login, err = userController.userUseCase.ChangePassword(req.Email, req.Password, req.NewPassword , ctx)
+
+	if err != nil {
+		return controllers.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controllers.NewSuccesResponse(c, response.FromUserRegister(login))
+}
+
 func (userController *UserController) GetByEmail (c echo.Context) error {
 	ctx := c.Request().Context()
 	req := request.GetByEmailRequest{} 

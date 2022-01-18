@@ -76,6 +76,24 @@ func (Repo *userRepo) UpdateUserByID(id uint, ctx context.Context, domain users.
 	return user.ToDomain(), nil
 
 }
+
+func (Repo *userRepo) ChangePassword(email string, password string, newpassword string, ctx context.Context) (users.Domain, error){
+	var user User
+	err := Repo.DB.Find(&user, "email=?", email)
+	if err.Error != nil {
+		return users.Domain{}, errors.New("email not registered")
+	}
+	if user.Password != password {
+        return users.Domain{}, errors.New("wrong password")
+    }
+	if err.Error != nil {
+		if Repo.DB.Update(user.Password, newpassword).Error != nil {
+			return users.Domain{}, errors.New("id tidak ditemukan")
+		}
+	}
+	return user.ToDomain(), nil
+}
+
 func (Repo *userRepo) DeleteUserByID(id uint, ctx context.Context) error{
 	user := User{}
 	err := Repo.DB.Delete(&user, id)
