@@ -89,7 +89,7 @@ func (usecase *UserUseCase) CheckingUser(email string, password string, ctx cont
 		return Domain{}, errors.New("password belum di isi")
 	
 	}
-	user, err := usecase.repo.CheckingUser(email, password, ctx)
+	user, err := usecase.repo.CheckUser(email, ctx)
 	if err != nil {
 		return Domain{}, err
 	}

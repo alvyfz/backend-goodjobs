@@ -181,7 +181,7 @@ func (_m *Repository) Login(ctx context.Context, email string, password string) 
 	return r0, r1
 }
 
-func (_m *Repository) CheckingUser(email string, password string, ctx context.Context) (users.Domain, error) {
+func (_m *Repository) CheckUser(email string, ctx context.Context) (users.Domain, error) {
 	ret := _m.Called(ctx, email)
 
 	var r0 users.Domain

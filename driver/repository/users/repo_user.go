@@ -36,15 +36,12 @@ func (Repo *userRepo) GetEmail(ctx context.Context, email string) (users.Domain,
 	
 }
 
-func (Repo *userRepo) CheckingUser(email string, password string,ctx context.Context) (users.Domain, error){
+func (Repo *userRepo) CheckUser(email string,ctx context.Context) (users.Domain, error){
 	var user User
 	err := Repo.DB.Find(&user, "email=?", email)
 	if err.Error != nil {
 		return users.Domain{}, errors.New("email not registered")
 	}
-	if user.Password != password {
-        return users.Domain{}, errors.New("wrong password")
-    }
 	return user.ToDomain(), nil
 	
 }
