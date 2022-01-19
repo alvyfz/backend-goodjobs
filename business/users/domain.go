@@ -36,7 +36,7 @@ type UserUsecaseInterface interface {
 
 type UserRepoInterface interface {
 	GetByID(id uint, ctx context.Context) (Domain, error)
-	CheckingUser(email string, password string, ctx context.Context) (Domain, error)
+	CheckUser(email string, ctx context.Context) (Domain, error)
 	GetByEmail(email string, ctx context.Context) (Domain, error)
 	GetAllUsers(ctx context.Context) ([]Domain, error)
 	RegisterUser(ctx context.Context, domain *Domain) (Domain, error)

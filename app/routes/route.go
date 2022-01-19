@@ -33,7 +33,7 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.GET("user/:id", ctrl.UserController.GetByID)
 	e.POST("user", ctrl.UserController.GetByEmail)
 	e.GET("users", ctrl.UserController.GetAllUsers)
-	e.PUT("user/:id", ctrl.UserController.UpdateUserByID, jwt)
+	e.PUT("user/:id", ctrl.UserController.UpdateUserByID)
 
 	e.POST("role", ctrl.RoleController.Add)
 	e.GET("roles", ctrl.RoleController.GetAll)
