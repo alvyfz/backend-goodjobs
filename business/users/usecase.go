@@ -100,6 +100,22 @@ func (usecase *UserUseCase) CheckingUser(email string, password string, ctx cont
 	return user,  nil
 }
 
+
+func (usecase *UserUseCase) UpdatePasswordByID(id uint, ctx context.Context, domain Domain) (Domain, error){
+	domain.Id = (id)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(domain.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return Domain{}, err
+	}
+	domain.Password = string(hashedPassword)
+	user, err := usecase.repo.UpdatePasswordByID(id, ctx , domain)
+	if err != nil {
+		return Domain{}, errors.New("tidak ada user dengan ID tersebut")
+	}
+	return user, nil
+}
+
+
 func (usecase *UserUseCase) GetByEmail(email string, ctx context.Context) (Domain, error){
 	if email == "" {
 		return Domain{}, errors.New("email belum di isi")
@@ -133,15 +149,6 @@ func (usecase *UserUseCase) GetAllUsers(ctx context.Context) ([]Domain, error){
 func (usecase *UserUseCase) UpdateUserByID(id uint, ctx context.Context, domain Domain) (Domain, error){
 	domain.Id = (id)
 	user, err := usecase.repo.UpdateUserByID(id, ctx , domain)
-	if err != nil {
-		return Domain{}, errors.New("tidak ada user dengan ID tersebut")
-	}
-	return user, nil
-}
-
-func (usecase *UserUseCase) UpdatePasswordByID(id uint, ctx context.Context, domain Domain) (Domain, error){
-	domain.Id = (id)
-	user, err := usecase.repo.UpdatePasswordByID(id, ctx , domain)
 	if err != nil {
 		return Domain{}, errors.New("tidak ada user dengan ID tersebut")
 	}
