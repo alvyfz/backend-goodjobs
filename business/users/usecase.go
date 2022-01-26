@@ -54,6 +54,7 @@ func (usecase *UserUseCase) RegisterUser(ctx context.Context, domain Domain) (Do
 }
 
 func (usecase *UserUseCase) LoginUser(email string, password string, ctx context.Context) (Domain, string, error){
+	
 	if email == "" {
 		return Domain{},"", errors.New("email belum di isi")
 	}
@@ -61,6 +62,7 @@ func (usecase *UserUseCase) LoginUser(email string, password string, ctx context
 		return Domain{},"", errors.New("password belum di isi")
 	
 	}
+
 	user, err := usecase.repo.GetEmail(ctx, email)
 	if err != nil {
 		return Domain{},"", err
@@ -130,7 +132,7 @@ func (usecase *UserUseCase) GetByEmail(email string, ctx context.Context) (Domai
 func (usecase *UserUseCase) GetByID(id uint, ctx context.Context) (Domain, error){
 	user, err := usecase.repo.GetByID(id, ctx)
 	if err != nil {
-		return Domain{}, errors.New("tidak ada user dengan ID tersebut")
+		return Domain{}, err
 	}
 	if id == 0 {
 		return Domain{}, errors.New("ID harus diisi")
