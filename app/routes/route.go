@@ -29,6 +29,7 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.POST("register", ctrl.UserController.RegisterUser)
 	e.POST("login", ctrl.UserController.LoginUser)
 	e.PUT("user/password/:id", ctrl.UserController.UpdatePasswordByID)
+	e.PUT("user/password/:id", ctrl.UserController.UpdatePasswordByID, jwt)
 	e.POST("user/checking", ctrl.UserController.CheckingUser)
 	e.GET("user/:id", ctrl.UserController.GetByID)
 	e.POST("user", ctrl.UserController.GetByEmail)
