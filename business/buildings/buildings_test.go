@@ -316,7 +316,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestGetAll(t *testing.T) {
-	t.Run("Test case 1 | Success Search building", func(t *testing.T) {
+	t.Run("Test case 1 | Success Get building", func(t *testing.T) {
 		setup()
 		buildingRepository.On("GetAll", mock.Anything).Return(allbuildingDomain, nil).Once()
 		data, err := buildingService.GetAll(context.Background())
@@ -326,7 +326,7 @@ func TestGetAll(t *testing.T) {
 		assert.Equal(t, len(data), len(allbuildingDomain))
 	})
 
-	t.Run("Test case 2 | Error Search building(search empty)", func(t *testing.T) {
+	t.Run("Test case 2 | Error Get building(get empty)", func(t *testing.T) {
 		setup()
 		buildingRepository.On("GetAll", mock.Anything, mock.Anything).Return([]buildings.Domain{}, errors.New("building Not Found")).Once()
 		data, err := buildingService.GetAll(context.Background())
@@ -336,28 +336,49 @@ func TestGetAll(t *testing.T) {
 	})
 }
 
+func TestGetOrderByPriceAsc(t *testing.T) {
+	t.Run("Test case 1 | Success Get building", func(t *testing.T) {
+		setup()
+		buildingRepository.On("GetOrderByPriceAsc", mock.Anything).Return(allbuildingDomain, nil).Once()
+		data, err := buildingService.GetOrderByPriceAsc(context.Background())
 
-func TestGetByComplexID(t *testing.T) {
-	// t.Run("Test case 1 | Success GetByComplexID", func(t *testing.T) {
-	// 	setup()
-	// 	buildingRepository.On("GetByComplexID", mock.AnythingOfType("uint"), mock.Anything).Return(buildingDomain, nil).Once()
-	// 	building, err := buildingService.GetByComplexID(buildingDomain.Id, context.Background())
+		assert.NoError(t, err)
+		assert.Nil(t, data)
+		assert.Equal(t, len(data), len(allbuildingDomain))
+	})
 
-	// 	assert.NoError(t, err)
-	// 	assert.NotNil(t, building)
-	// })
+	t.Run("Test case 2 | Error Get building(get empty)", func(t *testing.T) {
+		setup()
+		buildingRepository.On("GetOrderByPriceAsc", mock.Anything, mock.Anything).Return([]buildings.Domain{}, errors.New("building Not Found")).Once()
+		data, err := buildingService.GetOrderByPriceAsc(context.Background())
 
-	// t.Run("Test case 2 | Error GetByComplexID(building Id = 0)", func(t *testing.T) {
-	// 	setup()
-	// 	buildingDomain.Id = 0
-	// 	buildingRepository.On("GetByComplexID", mock.AnythingOfType("uint"), mock.Anything).Return(buildingDomain, nil).Once()
-	// 	data, err := buildingService.GetByComplexID(buildingDomain.Id, context.Background())
-
-	// 	assert.Error(t, err)
-	// 	assert.NotNil(t, data)
-	// 	assert.Equal(t, data, buildings.Domain{})
-	// })
+		assert.Error(t, err)
+		assert.Equal(t, data, []buildings.Domain{})
+	})
 }
+
+func TestGetOrderByPriceDesc(t *testing.T) {
+	t.Run("Test case 1 | Success Get building", func(t *testing.T) {
+		setup()
+		buildingRepository.On("GetOrderByPriceDesc", mock.Anything).Return(allbuildingDomain, nil).Once()
+		data, err := buildingService.GetOrderByPriceDesc(context.Background())
+
+		assert.NoError(t, err)
+		assert.Nil(t, data)
+		assert.Equal(t, len(data), len(allbuildingDomain))
+	})
+
+	t.Run("Test case 2 | Error Get building(get empty)", func(t *testing.T) {
+		setup()
+		buildingRepository.On("GetOrderByPriceDesc", mock.Anything, mock.Anything).Return([]buildings.Domain{}, errors.New("building Not Found")).Once()
+		data, err := buildingService.GetOrderByPriceDesc(context.Background())
+
+		assert.Error(t, err)
+		assert.Equal(t, data, []buildings.Domain{})
+	})
+}
+
+
 
 func TestGetById(t *testing.T) {
 	t.Run("Test case 1 | Success GetByID", func(t *testing.T) {
@@ -369,16 +390,6 @@ func TestGetById(t *testing.T) {
 		assert.NotNil(t, building)
 	})
 
-	t.Run("Test case 2 | Error GetByID(building Id = 0)", func(t *testing.T) {
-		setup()
-		buildingDomain.Id = 0
-		buildingRepository.On("GetByID", mock.AnythingOfType("uint"), mock.Anything).Return(buildingDomain, nil).Once()
-		data, err := buildingService.GetByID(buildingDomain.Id, context.Background())
-
-		assert.Error(t, err)
-		assert.NotNil(t, data)
-		assert.Equal(t, data, buildings.Domain{})
-	})
 }
 
 func TestEdit(t *testing.T) {

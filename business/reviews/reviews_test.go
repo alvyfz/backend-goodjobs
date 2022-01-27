@@ -122,26 +122,26 @@ func TestGetAll(t *testing.T) {
     })
 }
 
-func TestGetByBuildingID(t *testing.T) {
-	// t.Run("Test case 1 | Success GetByBuildingID", func(t *testing.T) {
-	// 	setup()
-	// 	reviewRepository.On("GetByBuildingID", mock.AnythingOfType("uint") ,mock.Anything ).Return(reviewDomain, nil).Once()
-	// 	review, err := reviewService.GetByBuildingID(reviewDomain.Building_ID, context.Background())
+func TestGetByBuildingId(t *testing.T) {
+	t.Run("Test case 1 | Success GetByID", func(t *testing.T) {
+		setup()
+		reviewRepository.On("GetByBuildingID", mock.AnythingOfType("uint"), mock.Anything).Return([]reviews.Domain{reviewDomain}, nil).Once()
+		review, err := reviewService.GetByBuildingID(reviewDomain.Id, context.Background())
 
-	// 	assert.NoError(t, err)
-	// 	assert.NotNil(t, review)
-	// })
+		assert.NoError(t, err)
+		assert.NotNil(t, review)
+		assert.Contains(t, review, reviewDomain)
+	})
 
-	// t.Run("Test case 2 | Error GetByBuildingID(review Id = 0)", func(t *testing.T) {
-	// 	setup()
-	// 	reviewDomain.Id = 0
-	// 	reviewRepository.On("GetByBuildingID", mock.AnythingOfType("uint") ,mock.Anything ).Return(reviewDomain, nil).Once()
-	// 	data, err := reviewService.GetByBuildingID(reviewDomain.Building_ID, context.Background())
+	t.Run("Test case 2 | Error Search review(search empty)", func(t *testing.T) {
+        setup()
+        reviewRepository.On("GetByBuildingID", mock.Anything, mock.Anything).Return([]reviews.Domain{}, errors.New("review Not Found")).Once()
+        data, err := reviewService.GetByBuildingID(reviewDomain.Id, context.Background())
 
-	// 	assert.Error(t, err)
-	// 	assert.NotNil(t, data)
-	// 	assert.Equal(t, data, reviews.Domain{})
-	// })
+        assert.Error(t, err)
+        assert.Equal(t, data, []reviews.Domain{})
+    })
+
 }
 
 func TestEdit(t *testing.T) {

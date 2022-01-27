@@ -120,7 +120,7 @@ func TestAdd(t *testing.T) {
 			Description: "adanih",
 			Price: 1111111,
 			UnitSize: 0,
-			Img:    "",
+			Img:    "foto",
 		})
 		assert.Error(t, err)
 		assert.NotNil(t, unit)
